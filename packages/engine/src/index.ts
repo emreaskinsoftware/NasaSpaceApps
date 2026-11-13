@@ -17,7 +17,7 @@ export * from './exposure';
 export * from './integrity';
 export * from './exercise';
 export { RULES, RULE_CONSTANTS, GUIDANCE, ruleCards } from './rules';
-export const ENGINE_VERSION = 'engine-1.0.0';
+export const ENGINE_VERSION = 'engine-1.0.1';
 
 export interface EngineConfig {
   missionId: string;
@@ -36,6 +36,24 @@ interface Chan { lastAtMs: number | null; lastSeq: number; reported: QualityStat
 class CrewState {
   chans = new Map<string, Chan>();
   latest: Record<string, number | null> = {};
+  // Preserve bad input intervals until all dependent windows have expired; a fresh
+  // valid packet must not make earlier suspect samples trustworthy retrospectively.
+  private badQuality = new Map<string, { start: number; end: number; state: QualityState }[]>();
+  recordQuality(metric: Metric, start: number, end: number, state: QualityState): void {
+    const rows = this.badQuality.get(metric) ?? [];
+    while (rows.length && rows[0].end < end - 600000) rows.shift();
+    if (state !== 'valid') {
+      const last = rows.at(-1);
+      if (last && last.state === state && start <= last.end + 0.01) last.end = Math.max(last.end, end);
+      else rows.push({ start, end, state });
+    }
+    this.badQuality.set(metric, rows);
+  }
+  windowQuality(metric: string, a: number, b: number, nowMs: number): QualityState {
+    const current = this.quality(metric, nowMs).state;
+    if (current !== 'valid') return current;
+    return this.badQuality.get(metric)?.find((r) => r.start < b && r.end > a)?.state ?? 'valid';
+  }
   exposure: ExposureProcessor;
   integrity: IntegrityProcessor;
   exercise: ExerciseProcessor;
@@ -123,6 +141,7 @@ export function createEngine(cfg: EngineConfig): Engine {
           const step = 1000 / r.sampleRateHz;
           a.chan.lastSeq = r.sequence; a.chan.lastAtMs = r.startAtMs + (n - 1) * step;
           setQuality(a.chan, r.quality, r.clockUncertaintyMs, []);
+          a.crew.recordQuality(a.metric, r.startAtMs, r.startAtMs + n * step, a.chan.reported);
           if (r.quality === 'invalid' || r.quality === 'unavailable') continue;
           for (let i = 0; i < n; i++) a.crew.route(a.metric, r.startAtMs + i * step, r.samples[i]);
           a.crew.latest[a.metric] = r.samples[n - 1];
@@ -132,8 +151,9 @@ export function createEngine(cfg: EngineConfig): Engine {
           const { min, max } = METRICS[a.metric];
           if (r.value !== null && (!Number.isFinite(r.value) || r.value < min || r.value > max)) { reject('non-finite-or-out-of-range', a.metric, r.crewId, r.observedAtMs); continue; }
           a.chan.lastSeq = r.sequence; a.chan.lastAtMs = r.observedAtMs;
-          if (r.value === null) { setQuality(a.chan, 'invalid', r.clockUncertaintyMs, ['null-value']); a.crew.latest[a.metric] = null; continue; }
+          if (r.value === null) { setQuality(a.chan, 'invalid', r.clockUncertaintyMs, ['null-value']); a.crew.recordQuality(a.metric, r.observedAtMs, r.observedAtMs + 1000 / METRICS[a.metric].rateHz, 'invalid'); a.crew.latest[a.metric] = null; continue; }
           setQuality(a.chan, r.quality, r.clockUncertaintyMs, r.qualityReasons);
+          a.crew.recordQuality(a.metric, r.observedAtMs, r.observedAtMs + 1000 / METRICS[a.metric].rateHz, a.chan.reported);
           if (r.quality === 'invalid' || r.quality === 'unavailable') continue;
           a.crew.route(a.metric, r.observedAtMs, r.value);
           a.crew.latest[a.metric] = r.value;
@@ -146,8 +166,9 @@ export function createEngine(cfg: EngineConfig): Engine {
       const calibrationRequests: string[] = [];
       for (const crew of crews.values()) {
         const q = (m: string) => crew.quality(m, now);
+        const windowQuality = (m: string, a: number, b: number) => crew.windowQuality(m, a, b, now);
         const gasQ = q('co2.local');
-        for (const b of crew.exposure.advance(gasQ.state, gasQ.lastAtMs)) {
+        for (const b of crew.exposure.advance(gasQ.state, gasQ.lastAtMs, windowQuality)) {
           const v = b.estimates[EXPOSURE_METHODS.candidate.id];
           pendingEstimates.push({
             id: `${cfg.runId}:est:${crew.crewId}:${estSeq++}`, missionId: cfg.missionId, runId: cfg.runId, crewId: crew.crewId,
@@ -156,10 +177,10 @@ export function createEngine(cfg: EngineConfig): Engine {
             origin: cfg.origin, strength: b.strength, reasons: b.reasons, validCoverage: b.coverage,
           });
         }
-        crew.integrity.advance(now, q('mech.pvdf').state);
+        crew.integrity.advance(now, q('mech.pvdf').state, windowQuality);
         if (crew.integrity.wantCalibration) { crew.integrity.wantCalibration = false; calibrationRequests.push(crew.crewId); }
         const cq = crew.integrity.windows.length ? crew.integrity.windows[crew.integrity.windows.length - 1].contact : 'unavailable';
-        crew.exercise.advance(now, { load: q('exercise.load').state, imp: q('imp.r10k').state, contact: cq });
+        crew.exercise.advance(now, { load: q('exercise.load').state, imp: q('imp.r10k').state, contact: cq === 'valid' ? q('contact.force').state : cq, mechanical: windowQuality('mech.pvdf', now - 2000, now), motion: windowQuality('imu.accel', now - 2000, now), position: q('exercise.position').state });
       }
       if (now - lastRuleEval >= RULE_EVAL_MS) {
         lastRuleEval = now;

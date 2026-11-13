@@ -104,7 +104,7 @@ export const RULES: RuleDef[] = [
       const decision = [...c.integrity.windows].reverse().find((x) => x.decision !== 'masked')?.decision ?? lw.decision;
       const ev: EvidenceItem[] = [
         { id: `obs:${c.crewId}:contact:${w.startMs}`, kind: 'observation', metric: 'contact.force', value: lw.contactForceN === null ? null : round(lw.contactForceN, 1), unit: 'N', quality: lw.contact, window: w, note: `${round(fr * 100)} % of reference` },
-        { id: `est:${c.crewId}:gain:${w.startMs}`, kind: 'estimate', metric: 'mech.transfer-gain', value: lw.transferGain === null ? null : round(lw.transferGain, 2), unit: 'ratio', quality: c.integrity.cal.state === 'accepted' ? 'valid' : 'suspect', window: w, methodId: 'calibration-aware@1.0.0', note: `calibration ${c.integrity.cal.state}` },
+        { id: `est:${c.crewId}:gain:${w.startMs}`, kind: 'estimate', metric: 'mech.transfer-gain', value: lw.transferGain === null ? null : round(lw.transferGain, 2), unit: 'ratio', quality: c.integrity.cal.state === 'accepted' ? 'valid' : 'suspect', window: w, methodId: 'calibration-aware@1.0.1', note: `calibration ${c.integrity.cal.state}` },
         { id: `obs:${c.crewId}:rms:${w.startMs}`, kind: 'observation', metric: 'mech.pvdf.rms', value: lw.rms.fixed === null ? null : round(lw.rms.fixed, 4), unit: 'a.u.', quality: lw.contact, window: w, note: `decision ${decision}` },
       ];
       return { key: decision, active: bad || fr < 0.85, params: { pct: round(fr * 100), decision }, evidence: ev, limitations: ['self-check-is-not-physiological-calibration', DEMO, SIMLIM] };
@@ -122,7 +122,7 @@ export const RULES: RuleDef[] = [
       const w = win(k.lastAtMs - 1000, k.lastAtMs);
       return {
         active: k.state === 'rejected', params: { reason: k.reason ?? 'unknown', gain: k.lastGain === null ? 'n/a' : round(k.lastGain, 2) },
-        evidence: [{ id: `est:${c.crewId}:cal:${w.startMs}`, kind: 'estimate', metric: 'mech.transfer-gain', value: k.lastGain === null ? null : round(k.lastGain, 2), unit: 'ratio', quality: 'suspect', window: w, methodId: 'calibration-aware@1.0.0', note: k.reason ?? '' }],
+        evidence: [{ id: `est:${c.crewId}:cal:${w.startMs}`, kind: 'estimate', metric: 'mech.transfer-gain', value: k.lastGain === null ? null : round(k.lastGain, 2), unit: 'ratio', quality: 'suspect', window: w, methodId: 'calibration-aware@1.0.1', note: k.reason ?? '' }],
         limitations: ['actuator-path-may-differ-from-physiological-path', SIMLIM],
       };
     },
@@ -142,7 +142,7 @@ export const RULES: RuleDef[] = [
       return {
         key: `${Math.sign(z)}|${k.strength}`, active: Math.abs(z) > RULE_CONSTANTS.deviationZ, params: { pct: round(k.percentDiff ?? 0), z: round(z, 1), refs: k.referenceIds.length, strength: k.strength },
         evidence: [
-          { id: `est:${c.crewId}:dev:${w.startMs}`, kind: 'estimate', metric: 'mmg.response-deviation', value: round(z, 2), unit: 'z', quality: k.strength === 'supported' ? 'valid' : 'suspect', window: w, methodId: 'matched-conditioned@1.0.0', note: `${k.referenceIds.length} matched reference sessions` },
+          { id: `est:${c.crewId}:dev:${w.startMs}`, kind: 'estimate', metric: 'mmg.response-deviation', value: round(z, 2), unit: 'z', quality: k.strength === 'supported' ? 'valid' : 'suspect', window: w, methodId: 'matched-conditioned@1.0.1', note: `${k.referenceIds.length} matched reference sessions` },
           { id: `est:${c.crewId}:devf:${w.startMs}`, kind: 'estimate', metric: 'mmg.response-deviation', value: zf === null ? null : round(zf, 2), unit: 'z', quality: zf === null ? 'unavailable' : 'suspect', window: w, methodId: 'fluid-aware@1.0.0', note: 'experimental comparison method' },
           { id: `obs:${c.crewId}:imp:${w.startMs}`, kind: 'observation', metric: 'imp.r10k.shift', value: k.impedanceShiftPct === null ? null : round(k.impedanceShiftPct, 1), unit: '%', quality: c.q('imp.r10k').state, window: w },
         ],
@@ -180,7 +180,7 @@ export const RULES: RuleDef[] = [
         key: `${Math.sign(k.impedanceShiftPct)}`, active: Math.abs(k.impedanceShiftPct) > RULE_CONSTANTS.impedanceShiftPct, params: { pct: round(k.impedanceShiftPct, 1), z: round(z, 1) },
         evidence: [
           { id: `obs:${c.crewId}:imp:${w.startMs}`, kind: 'observation', metric: 'imp.r10k.shift', value: round(k.impedanceShiftPct, 1), unit: '%', quality: 'valid', window: w },
-          { id: `est:${c.crewId}:dev:${w.startMs}`, kind: 'estimate', metric: 'mmg.response-deviation', value: round(z, 2), unit: 'z', quality: 'valid', window: w, methodId: 'matched-conditioned@1.0.0' },
+          { id: `est:${c.crewId}:dev:${w.startMs}`, kind: 'estimate', metric: 'mmg.response-deviation', value: round(z, 2), unit: 'z', quality: 'valid', window: w, methodId: 'matched-conditioned@1.0.1' },
         ],
         limitations: ['impedance-is-not-fluid-volume', 'not-an-atrophy-diagnosis', DEMO, SIMLIM],
       };

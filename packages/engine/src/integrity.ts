@@ -9,7 +9,7 @@ import { Biquad, Series, toneAmplitude } from './dsp';
 export const INTEGRITY_METHODS = {
   fixed: { id: 'fixed-filter', version: '1.0.0' },
   paired: { id: 'paired-reference', version: '1.0.0' },
-  candidate: { id: 'calibration-aware', version: '1.0.0' },
+  candidate: { id: 'calibration-aware', version: '1.0.1' },
 } as const;
 
 export const INTEGRITY_CONFIG = {
@@ -81,7 +81,7 @@ export class IntegrityProcessor {
     return false;
   }
 
-  private evaluateCalibration(nowMs: number): void {
+  private evaluateCalibration(nowMs: number, quality?: (metric: string, a: number, b: number) => QualityState): void {
     const [a, b] = this.pendingCal!;
     if ((this.raw.lastT ?? 0) < b && nowMs < b + 1500) return;
     this.pendingCal = null;
@@ -89,6 +89,7 @@ export class IntegrityProcessor {
     const amp = toneAmplitude(this.raw.v.slice(lo, hi), this.meta.calToneHz, 200);
     const f = this.force.mean(a - 500, b);
     this.cal.lastAtMs = b; this.cal.nextAtMs = this.calPeriod ? b + this.calPeriod : null;
+    if (quality && ['mech.pvdf', 'contact.force', 'actuator.state'].some((m) => quality(m, a, b) !== 'valid')) { this.cal.state = 'rejected'; this.cal.reason = 'calibration-input-quality'; return; }
     if (hi - lo < 80 || f === null) { this.cal.state = 'rejected'; this.cal.reason = 'insufficient-calibration-data'; return; }
     if (this.aRef === null) {
       // First calibration becomes the frozen instrument reference. It is never updated during a run,
@@ -107,7 +108,7 @@ export class IntegrityProcessor {
     else { this.cal.state = 'rejected'; this.cal.reason = 'contact-changed-response-unchanged'; }
   }
 
-  private closeWindow(a: number): void {
+  private closeWindow(a: number, quality?: (metric: string, a: number, b: number) => QualityState): void {
     const b = a + INTEGRITY_CONFIG.windowMs;
     const lo = this.p.lower(a), hi = this.p.lower(b);
     // Paired-reference cancellation: 5-tap least squares of the mechanical channel on the motion reference
@@ -165,6 +166,15 @@ export class IntegrityProcessor {
         rec.reasons.push(calAfterChange ? 'coupling-loss-beyond-correctable-range' : 'contact-changed-awaiting-calibration');
       }
     }
+    if (quality) {
+      const bad = ['mech.pvdf', 'imu.accel', 'contact.force'].map((m) => ({ m, q: quality(m, a, b) })).filter((x) => x.q !== 'valid');
+      if (bad.length) {
+        rec.decision = 'rejected'; rec.rms.candidate = null;
+        rec.reasons.push(...bad.map(({ m, q }) => `input-quality:${m}:${q}`));
+        const contactQuality = bad.find((x) => x.m === 'contact.force');
+        if (contactQuality) rec.contact = contactQuality.q;
+      }
+    }
     const scale = rec.decision === 'corrected' && this.cal.lastGain ? 1 / this.cal.lastGain : 1;
     const usable = rec.decision === 'accepted' || rec.decision === 'corrected';
     for (let k = lo, j = 0; k < hi; k++, j++) {
@@ -183,13 +193,13 @@ export class IntegrityProcessor {
     }
   }
 
-  advance(nowMs: number, pvdfQuality: QualityState): void {
-    if (this.pendingCal) this.evaluateCalibration(nowMs);
+  advance(nowMs: number, pvdfQuality: QualityState, quality?: (metric: string, a: number, b: number) => QualityState): void {
+    if (this.pendingCal) this.evaluateCalibration(nowMs, quality);
     if (this.cal.lastAtMs !== null && this.cal.state !== 'active' && this.cal.state !== 'evaluating' && nowMs - this.cal.lastAtMs > INTEGRITY_CONFIG.calibrationExpiryMs) {
       this.cal.state = 'expired'; this.cal.reason = 'no-recent-calibration';
     }
     const dataT = pvdfQuality === 'stale' || pvdfQuality === 'unavailable' ? nowMs - 500 : (this.p.lastT ?? -1);
-    while (dataT >= this.nextWin + INTEGRITY_CONFIG.windowMs) { this.closeWindow(this.nextWin); this.nextWin += INTEGRITY_CONFIG.windowMs; }
+    while (dataT >= this.nextWin + INTEGRITY_CONFIG.windowMs) { this.closeWindow(this.nextWin, quality); this.nextWin += INTEGRITY_CONFIG.windowMs; }
   }
   /** Fraction of contact reference currently measured (1 = as at reference). */
   contactRatio(nowMs: number): number | null { return this.fRatio(nowMs - 1500, nowMs + 1); }

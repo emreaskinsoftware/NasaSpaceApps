@@ -478,6 +478,7 @@
  "ground.simResponder": "Send simulated responder reply",
  "ground.cannedReply": "[Simulated responder] Package received. Please confirm garment fit at the sensor site and send 60 s of contact force after the next calibration.",
  "ground.replyQueued": "Reply queued on the downlink.",
+ "ground.finishedNote": "This scenario has ended. To send a reply, continue from an earlier point in the Simulation Lab or load a new scenario.",
  "ground.replyNote": "Replies travel back through the same delayed link and stay attached to this exact case revision.",
  "ground.sent": "Replies sent",
  "ground.noReplies": "No replies sent.",
@@ -732,5 +733,11 @@
  "landing.artResp": "Breathing · near-face CO₂",
  "landing.artMech": "Mechanical signal (muscle)",
  "landing.artContact": "Contact",
- "landing.artContinues": "Exposure estimate continues"
+ "landing.artContinues": "Exposure estimate continues",
+ "reason.resp-channel-suspect": "Respiratory timing is suspect",
+ "reason.resp-channel-invalid": "Respiratory channel invalid",
+ "reason.resp-channel-stale": "Respiratory channel stale",
+ "reason.resp-channel-unavailable": "Respiratory channel unavailable",
+ "reason.input-quality": "Input measurement quality does not support this interpretation",
+ "reason.calibration-input-quality": "Calibration inputs are not reliable"
 }

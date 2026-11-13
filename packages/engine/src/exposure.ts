@@ -9,7 +9,7 @@ export const EXPOSURE_METHODS = {
   cabin: { id: 'cabin', version: '1.0.0' },
   localWindow: { id: 'local-window', version: '1.0.0' },
   gated: { id: 'phase-gated', version: '1.0.0' },
-  candidate: { id: 'aligned-quality-aware', version: '1.0.0' },
+  candidate: { id: 'aligned-quality-aware', version: '1.0.1' },
 } as const;
 
 /** Demonstration settings (software constants, not clinical limits). */
@@ -29,10 +29,10 @@ export interface ExposureBreathInput {
 
 /** Pure estimator: all four methods for one breath. */
 export function estimateBreath(
-  b: ExposureBreathInput, co2: Series, cabin: Series, meta: SensorMeta, lagMs: number, lagConsistent: boolean, gasQuality: QualityState, index: number,
+  b: ExposureBreathInput, co2: Series, cabin: Series, meta: SensorMeta, lagMs: number, lagConsistent: boolean, gasQuality: QualityState, index: number, inputQualityReasons: string[] = [],
 ): BreathRecord {
   const inh = b.inhaleEndMs - b.startMs;
-  const reasons: string[] = [];
+  const reasons: string[] = [...inputQualityReasons];
   const cab = cabin.mean(b.startMs - 1000, b.endMs + 1) ?? cabin.last;
   const estimates: Record<string, number | null> = {
     [EXPOSURE_METHODS.cabin.id]: cab,
@@ -151,7 +151,7 @@ export class ExposureProcessor {
   }
 
   /** Resolve breaths whose gas samples have arrived. Returns newly completed records. */
-  advance(gasQuality: QualityState, gasLastT: number | null): BreathRecord[] {
+  advance(gasQuality: QualityState, gasLastT: number | null, quality?: (metric: string, a: number, b: number) => QualityState): BreathRecord[] {
     const done: BreathRecord[] = [];
     const declared = this.meta.co2LocalTransportDelayMs;
     while (this.pending.length) {
@@ -165,7 +165,10 @@ export class ExposureProcessor {
       const est = this.lagEstimateMs;
       const consistent = est === null || Math.abs(est - declared) <= EXPOSURE_CONFIG.lagMismatchMs;
       const lag = est === null ? declared : Math.max(declared - EXPOSURE_CONFIG.lagClampMs, Math.min(declared + EXPOSURE_CONFIG.lagClampMs, est));
-      const rec = estimateBreath(b, this.co2, this.cabin, this.meta, lag, consistent, gasQuality, this.idx++);
+      const respQ = quality?.('resp.displacement', b.startMs, b.endMs) ?? 'valid';
+      const windowGasQ = quality?.('co2.local', b.startMs + lag, b.inhaleEndMs + lag) ?? gasQuality;
+      const rec = estimateBreath(b, this.co2, this.cabin, this.meta, lag, consistent, windowGasQ, this.idx++, respQ === 'valid' ? [] : [`resp-channel-${respQ}`]);
+      if (quality && quality('co2.cabin', b.startMs, b.endMs) !== 'valid') rec.estimates[EXPOSURE_METHODS.cabin.id] = null;
       const c = rec.estimates[EXPOSURE_METHODS.candidate.id];
       if (c !== null) this.historyPpmMin += (c * (b.endMs - b.startMs)) / 60000;
       this.breaths.push(rec);

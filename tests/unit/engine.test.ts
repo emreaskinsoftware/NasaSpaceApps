@@ -70,6 +70,56 @@ describe('ingestion and channel quality', () => {
   });
 });
 
+describe('input quality propagates to dependent estimates', () => {
+  it.each(['resp.displacement', 'co2.local', 'mech.pvdf', 'imu.accel', 'contact.force'])(
+    'withholds the dependent result when %s has uncertain timestamps', (metric) => {
+      const sim = createSimulator({ scenario: scenarioById('SIM-08'), seed: 7, missionId: 'm', runId: 'r', crewIds: ['crew-1'] });
+      const engine = createEngine({ missionId: 'm', runId: 'r', crewIds: ['crew-1'], sensorMeta: sim.sensorMeta, references: refs, origin: 'simulated' });
+      const events: string[] = [];
+      while (sim.nowMs < 150000) {
+        const batch = sim.step();
+        for (const row of batch.records) if (row.metric === metric) row.clockUncertaintyMs = 10000;
+        engine.ingest(batch.records);
+        events.push(...engine.advanceTo(sim.nowMs).events.map((e) => e.ruleId));
+      }
+      const crew = engine.snapshot().crews['crew-1'];
+      expect(crew.channelQuality[metric].state).toBe('suspect');
+      expect(crew.channelQuality['co2.cabin'].state).toBe('valid');
+      if (metric === 'resp.displacement' || metric === 'co2.local') {
+        expect(crew.breaths.length).toBeGreaterThan(10);
+        expect(crew.breaths.at(-1)!.estimates['aligned-quality-aware']).toBeNull();
+        expect(crew.breaths.at(-1)!.strength).toBe('insufficient');
+      } else {
+        expect(crew.integrity.at(-1)!.decision).toBe('rejected');
+        expect(crew.comparison?.eligible ?? false).toBe(false);
+        expect(events).not.toContain('EXR-DEV-01');
+        expect(crew.breaths.at(-1)!.estimates['aligned-quality-aware']).not.toBeNull();
+      }
+    },
+  );
+});
+
+it('keeps a suspect mechanical interval withheld after a fresh packet, then recovers', () => {
+  const sim = createSimulator({ scenario: scenarioById('SIM-08'), seed: 7, missionId: 'm', runId: 'r', crewIds: ['crew-1'] });
+  const engine = createEngine({ missionId: 'm', runId: 'r', crewIds: ['crew-1'], sensorMeta: sim.sensorMeta, references: refs, origin: 'simulated' });
+  const advance = (until: number) => {
+    while (sim.nowMs < until) {
+      const batch = sim.step();
+      for (const row of batch.records) if (row.metric === 'mech.pvdf' && batch.tMs >= 145000 && batch.tMs < 146000) row.clockUncertaintyMs = 10000;
+      engine.ingest(batch.records); engine.advanceTo(sim.nowMs);
+    }
+    return engine.snapshot().crews['crew-1'];
+  };
+  const during = advance(145500);
+  expect(during.comparison?.eligible ?? false).toBe(false);
+  const fresh = advance(147000);
+  expect(fresh.channelQuality['mech.pvdf'].state).toBe('valid');
+  expect(fresh.integrity.find((w) => w.startMs === 144000)?.decision).toBe('rejected');
+  const recovered = advance(180000);
+  expect(recovered.integrity.at(-1)?.decision).toBe('accepted');
+  expect(recovered.comparison?.eligible).toBe(true);
+});
+
 describe('architecture boundaries', () => {
   it('the engine imports contracts only — never simulator, evaluation, runtime or UI code', () => {
     const dir = join(ROOT, 'packages/engine/src');

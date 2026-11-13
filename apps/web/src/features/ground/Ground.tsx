@@ -19,12 +19,13 @@ export function Ground() {
   const { t } = useTranslation();
   const view = useApp((s) => s.view)!, command = useApp((s) => s.command), setToast = useApp((s) => s.setToast);
   const explain = useExplain();
+  const finished = useApp((s) => s.status?.finished ?? false);
   const [sel, setSel] = useState<string | null>(null), [text, setText] = useState(''), [req, setReq] = useState<string[]>([]);
   const cases = [...view.ground.cases].sort((a, b) => b.receivedAtMs - a.receivedAtMs);
   const cur = cases.find((c) => c.pkg.packageId === sel) ?? cases[0] ?? null;
   const link = view.link;
   const send = (role: 'ground-specialist' | 'simulated-responder', body: string) => {
-    if (!cur || !body.trim()) return;
+    if (finished || !cur || !body.trim()) return;
     command({ type: 'groundReply', packageId: cur.pkg.packageId, text: body.trim().slice(0, 2000), requestedEvidence: req, authorRole: role });
     setText(''); setReq([]); setToast(t('ground.replyQueued'));
   };
@@ -67,8 +68,8 @@ export function Ground() {
           {!cur ? <p className="muted small">{t('ground.selectCase')}</p> : (<>
             <p><b>{explain(cur.pkg.summary)}</b></p>
             <div className="row"><span className="badge accent">{t(`origin.${cur.pkg.origin}`)}</span><span className="badge ok">{t('ground.hashOk')}</span><span className="badge mono" title={cur.pkg.contentHash}>{cur.pkg.contentHash.slice(0, 12)}…</span><span className="badge mono">{t('cases.revision', { n: cur.pkg.eventRevision })}</span></div>
-            <table className="t"><thead><tr><th>{t('cases.cEvidence')}</th><th className="n">{t('ground.value')}</th><th>{t('cases.cQuality')}</th></tr></thead>
-              <tbody>{cur.pkg.evidence.map((e) => <tr key={e.id}><td>{t(`emetric.${e.metric}`, { defaultValue: e.metric })}{e.methodId ? <span className="muted small"> · {e.methodId}</span> : null}</td><td className="n">{fmtNum(e.value, 2) ?? t('common.unavailable')}{e.value !== null ? ` ${e.unit}` : ''}</td><td><QualityBadge state={e.quality} /></td></tr>)}</tbody></table>
+            <div className="scroll-x" tabIndex={0} role="group" aria-label={t('common.tableRegion')}><table className="t"><thead><tr><th>{t('cases.cEvidence')}</th><th className="n">{t('ground.value')}</th><th>{t('cases.cQuality')}</th></tr></thead>
+              <tbody>{cur.pkg.evidence.map((e) => <tr key={e.id}><td>{t(`emetric.${e.metric}`, { defaultValue: e.metric })}{e.methodId ? <span className="muted small"> · {e.methodId}</span> : null}</td><td className="n">{fmtNum(e.value, 2) ?? t('common.unavailable')}{e.value !== null ? ` ${e.unit}` : ''}</td><td><QualityBadge state={e.quality} /></td></tr>)}</tbody></table></div>
             {cur.pkg.snippets.map((s) => <div key={s.metric}><span className="small muted">{t(`metric.${s.metric}`, { defaultValue: s.metric })} ({s.unit})</span><Snippet values={s.values} /></div>)}
             {cur.pkg.missing.length > 0 && <p className="small"><b>{t('ground.missing')}:</b> {cur.pkg.missing.join('; ')}</p>}
             <ul className="small muted">{cur.pkg.limitations.map((l) => <li key={l}>{t(`limitation.${l}`)}</li>)}</ul>
@@ -80,17 +81,17 @@ export function Ground() {
               <textarea value={text} maxLength={2000} onChange={(e) => setText(e.target.value)} data-testid="reply-text" />
             </label>
             <div className="row">
-              <button className="btn primary" disabled={!text.trim()} onClick={() => send('ground-specialist', text)} data-testid="reply-send">{t('ground.sendReply')}</button>
-              <button className="btn" onClick={() => send('simulated-responder', t('ground.cannedReply'))} data-testid="reply-sim">{t('ground.simResponder')}</button>
+              <button className="btn primary" disabled={finished || !text.trim()} onClick={() => send('ground-specialist', text)} data-testid="reply-send">{t('ground.sendReply')}</button>
+              <button className="btn" disabled={finished} onClick={() => send('simulated-responder', t('ground.cannedReply'))} data-testid="reply-sim">{t('ground.simResponder')}</button>
             </div>
-            <p className="small muted">{t('ground.replyNote')}</p>
+            <p className="small muted" data-testid={finished ? 'ground-finished' : undefined}>{t(finished ? 'ground.finishedNote' : 'ground.replyNote')}</p>
           </>)}
         </Card>
       </div>
       <Card title={t('ground.sent')}>
         {view.ground.replies.length === 0 ? <p className="muted small">{t('ground.noReplies')}</p> : (
-          <table className="t"><thead><tr><th>{t('ground.reply')}</th><th>{t('cases.pstate')}</th><th className="n">{t('cases.delivered')}</th></tr></thead>
-            <tbody>{view.ground.replies.map((r) => <tr key={r.id}><td className="small">{r.payload.text.slice(0, 90)} <span className="muted">· {t(`role.${r.payload.authorRole}`)} · r{r.payload.eventRevision}</span></td><td><span className={`badge ${r.state === 'delivered' ? 'ok' : 'warn'}`}>{t(`pstate.${r.state}`)}</span></td><td className="n">{r.deliveredAtMs === null ? '—' : fmtTime(r.deliveredAtMs)}</td></tr>)}</tbody></table>)}
+          <div className="scroll-x" tabIndex={0} role="group" aria-label={t('common.tableRegion')}><table className="t"><thead><tr><th>{t('ground.reply')}</th><th>{t('cases.pstate')}</th><th className="n">{t('cases.delivered')}</th></tr></thead>
+            <tbody>{view.ground.replies.map((r) => <tr key={r.id}><td className="small">{r.payload.text.slice(0, 90)} <span className="muted">· {t(`role.${r.payload.authorRole}`)} · r{r.payload.eventRevision}</span></td><td><span className={`badge ${r.state === 'delivered' ? 'ok' : 'warn'}`}>{t(`pstate.${r.state}`)}</span></td><td className="n">{r.deliveredAtMs === null ? '—' : fmtTime(r.deliveredAtMs)}</td></tr>)}</tbody></table></div>)}
       </Card>
     </div>
   );

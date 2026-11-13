@@ -478,6 +478,7 @@
  "ground.simResponder": "Envoyer la réponse du répondant simulé",
  "ground.cannedReply": "[Répondant simulé] Paquet reçu. Veuillez confirmer l'ajustement du vêtement au site du capteur et envoyer 60 s de force de contact après le prochain étalonnage.",
  "ground.replyQueued": "Réponse mise en file sur la liaison descendante.",
+ "ground.finishedNote": "Ce scénario est terminé. Pour répondre, reprenez à un point antérieur dans le laboratoire de simulation ou chargez un nouveau scénario.",
  "ground.replyNote": "Les réponses reviennent par la même liaison retardée et restent attachées à cette révision exacte du cas.",
  "ground.sent": "Réponses envoyées",
  "ground.noReplies": "Aucune réponse envoyée.",
@@ -732,5 +733,11 @@
  "landing.artResp": "Respiration · CO₂ près du visage",
  "landing.artMech": "Signal mécanique (muscle)",
  "landing.artContact": "Contact",
- "landing.artContinues": "L’estimation d’exposition continue"
+ "landing.artContinues": "L’estimation d’exposition continue",
+ "reason.resp-channel-suspect": "Synchronisation respiratoire incertaine",
+ "reason.resp-channel-invalid": "Canal respiratoire invalide",
+ "reason.resp-channel-stale": "Canal respiratoire périmé",
+ "reason.resp-channel-unavailable": "Canal respiratoire indisponible",
+ "reason.input-quality": "La qualité de la mesure ne permet pas cette interprétation",
+ "reason.calibration-input-quality": "Données de calibration non fiables"
 }

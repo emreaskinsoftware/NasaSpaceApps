@@ -478,6 +478,7 @@
  "ground.simResponder": "إرسال رد المستجيب المحاكى",
  "ground.cannedReply": "[مستجيب محاكى] استُلمت الحزمة. يُرجى تأكيد ملاءمة اللباس عند موضع المستشعر وإرسال 60 s من قوة التلامس بعد المعايرة التالية.",
  "ground.replyQueued": "أُدرج الرد في قائمة انتظار الوصلة الهابطة.",
+ "ground.finishedNote": "انتهى هذا السيناريو. لإرسال رد، تابع من نقطة سابقة في مختبر المحاكاة أو حمّل سيناريو جديدًا.",
  "ground.replyNote": "تعود الردود عبر الوصلة المتأخرة نفسها وتبقى مرتبطة بهذه النسخة بعينها من الحالة.",
  "ground.sent": "الردود المرسلة",
  "ground.noReplies": "لم تُرسل أي ردود.",
@@ -732,5 +733,11 @@
  "landing.artResp": "التنفس · CO₂ قرب الوجه",
  "landing.artMech": "الإشارة الميكانيكية (العضلة)",
  "landing.artContact": "التلامس",
- "landing.artContinues": "تقدير التعرّض مستمر"
+ "landing.artContinues": "تقدير التعرّض مستمر",
+ "reason.resp-channel-suspect": "توقيت التنفس غير موثوق",
+ "reason.resp-channel-invalid": "قناة التنفس غير صالحة",
+ "reason.resp-channel-stale": "بيانات التنفس قديمة",
+ "reason.resp-channel-unavailable": "قناة التنفس غير متاحة",
+ "reason.input-quality": "جودة القياس لا تدعم هذا التفسير",
+ "reason.calibration-input-quality": "بيانات المعايرة غير موثوقة"
 }

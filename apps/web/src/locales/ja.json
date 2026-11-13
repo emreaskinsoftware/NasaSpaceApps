@@ -478,6 +478,7 @@
  "ground.simResponder": "シミュレーション応答者の返信を送信",
  "ground.cannedReply": "[シミュレーション応答者] パッケージを受信しました。センサー部位でのガーメントのフィットを確認し、次回の校正後に接触力を 60 s 分送信してください。",
  "ground.replyQueued": "返信をダウンリンクのキューに追加しました。",
+ "ground.finishedNote": "このシナリオは終了しました。返信するには、シミュレーションラボで前の時点から再開するか、新しいシナリオを読み込んでください。",
  "ground.replyNote": "返信は同じ遅延リンクを通って戻り、このケースリビジョンそのものに紐づいたままになります。",
  "ground.sent": "送信済みの返信",
  "ground.noReplies": "送信済みの返信はありません。",
@@ -732,5 +733,11 @@
  "landing.artResp": "呼吸 · 顔付近の CO₂",
  "landing.artMech": "機械信号（筋）",
  "landing.artContact": "接触",
- "landing.artContinues": "曝露推定は継続"
+ "landing.artContinues": "曝露推定は継続",
+ "reason.resp-channel-suspect": "呼吸の時刻同期が不確かです",
+ "reason.resp-channel-invalid": "呼吸チャネルは無効です",
+ "reason.resp-channel-stale": "呼吸データが古くなっています",
+ "reason.resp-channel-unavailable": "呼吸チャネルは利用できません",
+ "reason.input-quality": "入力測定の品質がこの解釈を裏付けていません",
+ "reason.calibration-input-quality": "校正入力の信頼性が不足しています"
 }

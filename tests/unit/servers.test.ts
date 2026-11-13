@@ -38,6 +38,19 @@ const json = async (url: string, init?: RequestInit): Promise<{ status: number; 
   return { status: res.status, body: text ? JSON.parse(text) : null, headers: res.headers };
 };
 const post = (url: string, body: unknown, headers: Record<string, string> = {}) => json(url, { method: 'POST', headers: { 'content-type': 'application/json', ...headers }, body: JSON.stringify(body) });
+/** Send the declared size first: Fastify rejects it before consuming the body.
+ * Writing a megabyte concurrently races that intentional connection close on macOS. */
+const postLarge = (url: string, body: string): Promise<{ status: number; body: unknown }> =>
+  new Promise((resolve, reject) => {
+    const req = httpRequest(url, { method: 'POST', headers: { 'content-type': 'application/json', 'content-length': Buffer.byteLength(body) } }, (res) => {
+      let text = '';
+      res.on('data', (c) => { text += c; });
+      res.on('error', reject);
+      res.on('end', () => resolve({ status: res.statusCode ?? 0, body: JSON.parse(text) }));
+    });
+    req.on('error', reject);
+    req.flushHeaders(); // assert the early HTTP response without racing an unnecessary upload
+  });
 /** Raw request so restricted headers (Host, Origin) can be forged the way an attacker's browser/DNS would present them. */
 const raw = (url: string, headers: Record<string, string>, method = 'GET'): Promise<{ status: number; headers: Record<string, unknown>; text: string }> =>
   new Promise((resolve, reject) => {
@@ -352,12 +365,12 @@ describe('security', () => {
     const ground = await startGround();
     const big = JSON.stringify({ text: 'x'.repeat(1024 * 1024 + 64) });
     for (const url of [`${gw.url}/api/v1/imports`, `${ground.url}/api/v1/ground/packages`]) {
-      const r = await json(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: big });
+      const r = await postLarge(url, big);
       expect(r.status).toBe(413);
       expect(r.body).toEqual({ error: 'payload_too_large' });
     }
     // ground accepts at most 256 KB per package POST
-    expect((await json(`${ground.url}/api/v1/ground/packages`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ pad: 'x'.repeat(300 * 1024) }) })).status).toBe(413);
+    expect((await postLarge(`${ground.url}/api/v1/ground/packages`, JSON.stringify({ pad: 'x'.repeat(300 * 1024) }))).status).toBe(413);
     const clean = (r: { status: number; body: any }, status: number): void => {
       expect(r.status).toBe(status);
       const text = JSON.stringify(r.body);

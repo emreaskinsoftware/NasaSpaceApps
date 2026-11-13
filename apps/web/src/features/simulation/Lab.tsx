@@ -84,21 +84,21 @@ export function Lab() {
         </Card>
         <div className="grid g2">
           <Card title={t('lab.faults')} right={<span className="small muted">{view.crew.find((c) => c.id === crewId)?.pseudonym}</span>}>
-            <table className="t"><tbody>
+            <div className="scroll-x" tabIndex={0} role="group" aria-label={t('common.tableRegion')}><table className="t"><tbody>
               {FAULTS.map((f) => (
                 <tr key={f.track}><td>{t(`fault.${f.track}`)}</td><td><div className="row">{f.values.map((v) => (
                   <button key={v} className="btn sm" data-testid={`fault-${f.track}-${v}`} onClick={() => { command({ type: 'inject', injection: { atMs: 0, kind: 'set', crewId, track: f.track, value: v } }); setToast(t('lab.injected', { name: t(`fault.${f.track}`), value: `${v} ${f.unit}` })); }}>{v} {f.unit}</button>))}</div></td></tr>))}
               <tr><td>{t('fault.dropout')}</td><td><div className="row">{(['co2.local', 'mech.pvdf', 'contact.force'] as const).map((m) => <button key={m} className="btn sm" onClick={() => command({ type: 'inject', injection: { atMs: 0, kind: 'dropout', crewId, metric: m, durationMs: 20000 } })}>{t(`metric.${m}`)} · 20 s</button>)}</div></td></tr>
               <tr><td>{t('fault.link')}</td><td><button className="btn sm" aria-pressed={!view.link.cfg.up} onClick={() => command({ type: 'link', up: !view.link.cfg.up })}>{view.link.cfg.up ? t('ground.setDown') : t('ground.setUp')}</button></td></tr>
-            </tbody></table>
+            </tbody></table></div>
             <p className="small muted">{t('lab.faultsNote')}</p>
           </Card>
           <Card title={t('lab.evaluation')} right={<span className="badge warn">{t('lab.researcherOnly')}</span>}>
             {!researcher ? <p className="small">{t('lab.needResearcher')} <button className="btn sm" onClick={() => nav('/settings')}>{t('nav.settings')}</button></p> : (<>
               <label className="row"><input type="checkbox" checked={truth} onChange={(e) => setTruth(e.target.checked)} data-testid="truth-toggle" />{t('lab.showTruth')}</label>
               {evalRows && (
-                <table className="t" data-testid="eval-table"><thead><tr><th>{t('exposure.method')}</th><th className="n">MAE (ppm)</th><th className="n">{t('lab.bias')}</th><th className="n">{t('exposure.coverage')}</th><th className="n">n</th></tr></thead>
-                  <tbody>{evalRows.map((r) => <tr key={r.m}><td>{t(`method.${r.m}`)}</td><td className="n">{fmtNum(r.mae) ?? '—'}</td><td className="n">{fmtNum(r.bias) ?? '—'}</td><td className="n">{r.cov === null ? '—' : `${Math.round(r.cov * 100)} %`}</td><td className="n">{r.n}</td></tr>)}</tbody></table>)}
+                <div className="scroll-x" tabIndex={0} role="group" aria-label={t('common.tableRegion')}><table className="t" data-testid="eval-table"><thead><tr><th>{t('exposure.method')}</th><th className="n">MAE (ppm)</th><th className="n">{t('lab.bias')}</th><th className="n">{t('exposure.coverage')}</th><th className="n">n</th></tr></thead>
+                  <tbody>{evalRows.map((r) => <tr key={r.m}><td>{t(`method.${r.m}`)}</td><td className="n">{fmtNum(r.mae) ?? '—'}</td><td className="n">{fmtNum(r.bias) ?? '—'}</td><td className="n">{r.cov === null ? '—' : `${Math.round(r.cov * 100)} %`}</td><td className="n">{r.n}</td></tr>)}</tbody></table></div>)}
               <button className="btn sm" onClick={() => send({ type: 'export', kind: 'truth' })}>{t('lab.exportTruth')}</button>
             </>)}
             <p className="small muted">{t('lab.truthNote')}</p>
@@ -107,15 +107,15 @@ export function Lab() {
       </>)}
       <Card title={t('lab.heldOut')} right={<span className="badge dashed">{REPORT.generated ? t('lab.frozen', { date: (REPORT.generatedAtUtc ?? '').slice(0, 10) }) : t('lab.notGenerated')}</span>}>
         {REPORT.generated && REPORT.exposure ? (<>
-          <table className="t"><thead><tr><th>{t('exposure.method')}</th><th className="n">MAE ± SD (ppm)</th><th className="n">{t('lab.bias')}</th><th className="n">{t('exposure.coverage')}</th></tr></thead>
-            <tbody>{METHODS.map((m) => { const r = REPORT.exposure![m]; return r ? <tr key={m}><td>{t(`method.${m}`)}</td><td className="n">{fmtNum(r.mae)} ± {fmtNum(r.maeSd)}</td><td className="n">{fmtNum(r.bias)}</td><td className="n">{Math.round(r.coverage * 100)} %</td></tr> : null; })}</tbody></table>
+          <div className="scroll-x" tabIndex={0} role="group" aria-label={t('common.tableRegion')}><table className="t"><thead><tr><th>{t('exposure.method')}</th><th className="n">MAE ± SD (ppm)</th><th className="n">{t('lab.bias')}</th><th className="n">{t('exposure.coverage')}</th></tr></thead>
+            <tbody>{METHODS.map((m) => { const r = REPORT.exposure![m]; return r ? <tr key={m}><td>{t(`method.${m}`)}</td><td className="n">{fmtNum(r.mae)} ± {fmtNum(r.maeSd)}</td><td className="n">{fmtNum(r.bias)}</td><td className="n">{Math.round(r.coverage * 100)} %</td></tr> : null; })}</tbody></table></div>
           <p className="small muted">{t('lab.heldOutNote', { n: REPORT.evalSeeds?.length ?? 0 })}</p>
         </>) : <p className="small muted">{t('lab.runEvaluate')}</p>}
       </Card>
       {st && st.runs.length > 0 && (
         <Card title={t('lab.runs')}>
-          <table className="t"><thead><tr><th>{t('lab.run')}</th><th>{t('lab.scenario')}</th><th className="n">{t('lab.seed')}</th><th className="n">{t('strip.met')}</th><th /></tr></thead>
-            <tbody>{st.runs.map((r) => <tr key={r.runId}><td className="mono small">{r.runId}{r.parentRunId ? ` ← ${t('lab.forkOf')}` : ''}</td><td>{r.scenarioId}</td><td className="n">{r.seed}</td><td className="n">{fmtTime(r.lastMs)}</td><td>{r.active ? <span className="badge accent">{t('lab.activeRun')}</span> : <span className="badge">{t('lab.preserved')}</span>}</td></tr>)}</tbody></table>
+          <div className="scroll-x" tabIndex={0} role="group" aria-label={t('common.tableRegion')}><table className="t"><thead><tr><th>{t('lab.run')}</th><th>{t('lab.scenario')}</th><th className="n">{t('lab.seed')}</th><th className="n">{t('strip.met')}</th><th /></tr></thead>
+            <tbody>{st.runs.map((r) => <tr key={r.runId}><td className="mono small">{r.runId}{r.parentRunId ? ` ← ${t('lab.forkOf')}` : ''}</td><td>{r.scenarioId}</td><td className="n">{r.seed}</td><td className="n">{fmtTime(r.lastMs)}</td><td>{r.active ? <span className="badge accent">{t('lab.activeRun')}</span> : <span className="badge">{t('lab.preserved')}</span>}</td></tr>)}</tbody></table></div>
           <p className="small muted">{t('lab.runsNote')}</p>
         </Card>
       )}

@@ -8,7 +8,7 @@ import type { IntegrityProcessor } from './integrity';
 
 export const EXERCISE_METHODS = {
   unconditioned: { id: 'unconditioned', version: '1.0.0' },
-  conditioned: { id: 'matched-conditioned', version: '1.0.0' },
+  conditioned: { id: 'matched-conditioned', version: '1.0.1' },
   fluidAware: { id: 'fluid-aware', version: '1.0.0' },
   noIntegrity: { id: 'ablation-no-integrity', version: '1.0.0' },
 } as const;
@@ -62,6 +62,8 @@ export function compareExercise(cur: ExerciseCurrent | null, refs: ReferenceSess
   return out;
 }
 
+type ExerciseQuality = { load: QualityState; imp: QualityState; contact: QualityState; mechanical: QualityState; motion: QualityState; position: QualityState };
+
 export class ExerciseProcessor {
   readonly pos = new Series(30000);
   readonly load = new Series(30000);
@@ -73,6 +75,7 @@ export class ExerciseProcessor {
   private armed = false; private prev: number | null = null; private lastCross: number | null = null; private lastPeriod = 3000;
   private pending: { startMs: number; endMs: number }[] = [];
   private repIdx = 0;
+  private qualityKey = "";
 
   constructor(private integ: IntegrityProcessor, private refs: ReferenceSession[], private exerciseId = 'leg-press') {}
 
@@ -91,7 +94,9 @@ export class ExerciseProcessor {
   }
   onLoad(t: number, v: number): void { this.load.push(t, v); }
 
-  advance(nowMs: number, q: { load: QualityState; imp: QualityState; contact: QualityState }): boolean {
+  advance(nowMs: number, q: ExerciseQuality): boolean {
+    const qualityKey = JSON.stringify(q), qualityChanged = qualityKey !== this.qualityKey;
+    this.qualityKey = qualityKey;
     let changed = false;
     const lastRepEnd = this.reps.length ? this.reps[this.reps.length - 1].endMs : null;
     const recent = this.lastCross !== null && nowMs - this.lastCross < this.lastPeriod * 2.5;
@@ -113,13 +118,14 @@ export class ExerciseProcessor {
       if (this.reps.length > 200) this.reps.shift();
       changed = true;
     }
-    if (changed && this.session.active && (this.reps.length ? this.reps[this.reps.length - 1].endMs : null) !== lastRepEnd) this.recompute(nowMs, q);
+    if (this.session.active && (qualityChanged || (changed && (this.reps.length ? this.reps[this.reps.length - 1].endMs : null) !== lastRepEnd))) this.recompute(nowMs, q);
     return changed;
   }
 
-  private recompute(nowMs: number, q: { load: QualityState; imp: QualityState }): void {
+  private recompute(nowMs: number, q: ExerciseQuality): void {
     const sess = this.reps.filter((r) => r.index >= EXERCISE_CONFIG.warmupReps).slice(-EXERCISE_CONFIG.repsWindow);
     const pre: string[] = [];
+    for (const key of ['contact', 'mechanical', 'motion', 'position'] as const) if (q[key] !== 'valid') pre.push(`input-quality:${key}:${q[key]}`);
     if (q.load !== 'valid' || sess.some((r) => r.loadN === null)) pre.push('load-unavailable');
     // Conservative gate: repetitions that needed experimental gain compensation never feed the comparison.
     const ok = sess.filter((r) => r.mmgRms !== null && r.loadN !== null && r.quality === 'valid');

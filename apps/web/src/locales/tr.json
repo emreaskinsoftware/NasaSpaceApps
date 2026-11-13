@@ -478,6 +478,7 @@
  "ground.simResponder": "Simüle yanıtlayıcı yanıtı gönder",
  "ground.cannedReply": "[Simüle yanıtlayıcı] Paket alındı. Lütfen sensör bölgesindeki giysi oturuşunu teyit edin ve bir sonraki kalibrasyondan sonra 60 sn'lik temas kuvveti verisi gönderin.",
  "ground.replyQueued": "Yanıt, iniş bağlantısında kuyruğa alındı.",
+ "ground.finishedNote": "Bu senaryo sona erdi. Yanıt göndermek için Simülasyon Laboratuvarı’nda daha erken bir noktadan devam edin veya yeni bir senaryo yükleyin.",
  "ground.replyNote": "Yanıtlar aynı gecikmeli bağlantı üzerinden geri gider ve tam olarak bu vaka revizyonuna bağlı kalır.",
  "ground.sent": "Gönderilen yanıtlar",
  "ground.noReplies": "Gönderilmiş yanıt yok.",
@@ -732,5 +733,11 @@
  "landing.artResp": "Solunum · yüze yakın CO₂",
  "landing.artMech": "Mekanik sinyal (kas)",
  "landing.artContact": "Temas",
- "landing.artContinues": "Maruziyet kestirimi sürüyor"
+ "landing.artContinues": "Maruziyet kestirimi sürüyor",
+ "reason.resp-channel-suspect": "Solunum zamanlaması şüpheli",
+ "reason.resp-channel-invalid": "Solunum kanalı geçersiz",
+ "reason.resp-channel-stale": "Solunum kanalı güncel değil",
+ "reason.resp-channel-unavailable": "Solunum kanalı kullanılamıyor",
+ "reason.input-quality": "Girdi ölçümünün kalitesi bu yorumu desteklemiyor",
+ "reason.calibration-input-quality": "Kalibrasyon girdileri güvenilir değil"
 }

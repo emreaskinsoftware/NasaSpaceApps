@@ -478,6 +478,7 @@
  "ground.simResponder": "Antwort des simulierten Responders senden",
  "ground.cannedReply": "[Simulierter Responder] Paket empfangen. Bitte den Sitz der Kleidung an der Sensorstelle bestätigen und nach der nächsten Kalibrierung 60 s Kontaktkraft senden.",
  "ground.replyQueued": "Antwort im Downlink eingereiht.",
+ "ground.finishedNote": "Dieses Szenario ist beendet. Setzen Sie die Simulation im Labor an einem früheren Punkt fort oder laden Sie ein neues Szenario, um zu antworten.",
  "ground.replyNote": "Antworten laufen über dieselbe verzögerte Verbindung zurück und bleiben an genau diese Fallrevision gebunden.",
  "ground.sent": "Gesendete Antworten",
  "ground.noReplies": "Keine Antworten gesendet.",
@@ -732,5 +733,11 @@
  "landing.artResp": "Atmung · CO₂ in Gesichtsnähe",
  "landing.artMech": "Mechanisches Signal (Muskel)",
  "landing.artContact": "Kontakt",
- "landing.artContinues": "Expositionsschätzung läuft weiter"
+ "landing.artContinues": "Expositionsschätzung läuft weiter",
+ "reason.resp-channel-suspect": "Atemzeitmessung fragwürdig",
+ "reason.resp-channel-invalid": "Atemkanal ungültig",
+ "reason.resp-channel-stale": "Atemkanal veraltet",
+ "reason.resp-channel-unavailable": "Atemkanal nicht verfügbar",
+ "reason.input-quality": "Die Qualität der Eingangsmessung unterstützt diese Interpretation nicht",
+ "reason.calibration-input-quality": "Kalibrierungsdaten nicht zuverlässig"
 }

@@ -92,6 +92,8 @@ test('provisioned app reloads and runs with the network blocked; no request ever
   await page.getByRole('button', { name: 'Export JSON' }).click();
   expect((await dl).suggestedFilename()).toContain('aster-case');
   await run(page); // pause, then reload while still offline
+  // Worker control is asynchronous; the 60× display can still lag by 15 s until it acknowledges pause.
+  await expect(page.getByTestId('run-toggle')).toHaveText('Run');
   const before = await met(page);
   await page.waitForTimeout(2600);
   await page.reload();
@@ -210,4 +212,16 @@ test('security posture of the built app: strict CSP, no inline script, truthful 
   await page.getByTestId('ws-connect').click();
   await expect(page.getByTestId('ws-state')).toHaveText('Failed', { timeout: 15_000 }); // no gateway running: honest failure state
   expect(errors.filter((e) => !/WebSocket|ERR_CONNECTION_REFUSED|establish a connection|ws:\/\/127/.test(e))).toEqual([]);
+});
+
+
+test('completed scenarios cannot queue a ground reply that the stopped clock cannot deliver', async ({ page }) => {
+  await loadScenario(page, 'SIM-12');
+  await run(page);
+  await expect(page.getByTestId('run-toggle')).toBeDisabled({ timeout: 20000 });
+  await go(page, '/ground');
+  await page.getByTestId('reply-text').fill('Review the contact evidence.');
+  await expect(page.getByTestId('reply-send')).toBeDisabled();
+  await expect(page.getByTestId('reply-sim')).toBeDisabled();
+  await expect(page.getByTestId('ground-finished')).toBeVisible();
 });
