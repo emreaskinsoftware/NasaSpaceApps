@@ -1,0 +1,9 @@
+packages: []
+allowBuilds:
+  esbuild: true
+onlyBuiltDependencies:
+  - esbuild
+# Security overrides for build-time transitive dependencies flagged by `pnpm audit` (none of these ship in the app bundle).
+overrides:
+  image-size: ^2.0.3
+  glob: ^14.0.2

@@ -1,0 +1,39 @@
+{
+ "status": "not-rendered",
+ "reason": "Higgsfield connector not connected in the build session; no TTS/voice service and no full FFmpeg available",
+ "deliverables": {
+  "mainFilm": null,
+  "socialCut": null,
+  "walkthrough": null,
+  "narrationWav": null,
+  "finalCaptions": null,
+  "posters": null
+ },
+ "prepared": {
+  "footage": "deliverables/captures/ASTER_product_capture_SIM-11_seed11_1080p.webm",
+  "stills": 34,
+  "narration": "deliverables/video/narration.md",
+  "shotList": "deliverables/video/shot-list.md",
+  "prompts": "deliverables/video/higgsfield-prompts.md",
+  "draftCaptions": "deliverables/video/captions/ASTER_Product_Film_draft.srt (estimated timing, 99 s; regenerate from final audio)"
+ },
+ "footageProvenance": {
+  "scenario": "SIM-11",
+  "seed": 11,
+  "theme": "dark",
+  "locale": "en",
+  "viewport": "1920x1080",
+  "playback": "10x accelerated simulation",
+  "dataOrigin": "simulated",
+  "appBuild": "vite build of the local working tree (uncommitted)",
+  "postProduction": "none"
+ },
+ "claims": "docs/CLAIM_LEDGER.md",
+ "voice": {
+  "provider": null,
+  "model": null,
+  "voice": null,
+  "licence": null
+ },
+ "generatedInserts": []
+}

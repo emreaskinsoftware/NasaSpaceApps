@@ -1,0 +1,100 @@
+{
+ "generatedAtUtc": "2026-11-13T15:23:25.811Z",
+ "authoringSource": [
+  "media/presentation/content.ts",
+  "scripts/slides-build.ts"
+ ],
+ "fonts": "Segoe UI, Consolas (system fonts; no font files embedded or redistributed)",
+ "screenshots": [
+  {
+   "file": "deliverables/captures/case-detail-dark.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/case-detail-tr.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/case-reply-dark.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/cases-queued-dark.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/cases-tr.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/exercise-matched-light.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/exercise-withheld-dark.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/exposure-dark.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/exposure-light.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/exposure-tr.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/ground-received-dark.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/ground-tr.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/integrity-light.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/overview-ar.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/overview-dark.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/overview-light.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  },
+  {
+   "file": "deliverables/captures/overview-tr.png",
+   "provenance": "Captured from the running ASTER build by tests/capture/capture.spec.ts (see capture-manifest.json); simulated data",
+   "licence": "own work"
+  }
+ ],
+ "diagrams": "Original editable shapes drawn by the build script; no third-party artwork, logos, stock imagery or NASA insignia.",
+ "numbers": [
+  "deliverables/reports/evaluation.json",
+  "deliverables/reports/test-summary.json"
+ ]
+}

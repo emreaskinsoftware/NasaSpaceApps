@@ -1,0 +1,36 @@
+/* ASTER design tokens — single source of truth. Semantic aliases only; components never use raw status colors. */
+:root {
+  --font-sans: 'Inter Variable', 'Inter', system-ui, 'Segoe UI', 'Noto Sans Arabic', 'Noto Sans JP', 'Yu Gothic UI', 'Hiragino Sans', Tahoma, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px;
+  --radius: 10px; --radius-sm: 8px;
+  --t-fast: 140ms; --t-med: 220ms; --t-route: 280ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  color-scheme: dark;
+  --bg: #0b1016; --surface: #121b25; --elevated: #1a2633; --text: #edf4fa; --text-2: #a7b6c6; --border: #304354;
+  --accent: #66d5e8; --on-accent: #06222a; --success: #67d7a0; --warning: #f5c36b; --critical: #ff8d94;
+  --accent-soft: rgba(102, 213, 232, 0.12); --warning-soft: rgba(245, 195, 107, 0.13); --critical-soft: rgba(255, 141, 148, 0.13); --success-soft: rgba(103, 215, 160, 0.12);
+  --chart-1: #66d5e8; --chart-2: #f5c36b; --chart-3: #c9a6ff; --chart-4: #67d7a0; --chart-5: #ff8d94; --chart-grid: #233342;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --hatch: rgba(167, 182, 198, 0.16);
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f4f7fa; --surface: #ffffff; --elevated: #eaf0f5; --text: #142332; --text-2: #43576a; --border: #cbd5df;
+  --accent: #00586a; --on-accent: #ffffff; --success: #0f5f3a; --warning: #7a4100; --critical: #a31d2e;
+  --accent-soft: rgba(0, 107, 128, 0.09); --warning-soft: rgba(138, 75, 0, 0.09); --critical-soft: rgba(180, 35, 53, 0.08); --success-soft: rgba(20, 108, 67, 0.09);
+  --chart-1: #00687c; --chart-2: #9a5a00; --chart-3: #6b3fb5; --chart-4: #146c43; --chart-5: #b42335; --chart-grid: #dde5ec;
+  --shadow: 0 8px 24px rgba(20, 35, 50, 0.12);
+  --hatch: rgba(75, 96, 115, 0.16);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --bg: #f4f7fa; --surface: #ffffff; --elevated: #eaf0f5; --text: #142332; --text-2: #43576a; --border: #cbd5df;
+    --accent: #00586a; --on-accent: #ffffff; --success: #0f5f3a; --warning: #7a4100; --critical: #a31d2e;
+    --accent-soft: rgba(0, 107, 128, 0.09); --warning-soft: rgba(138, 75, 0, 0.09); --critical-soft: rgba(180, 35, 53, 0.08); --success-soft: rgba(20, 108, 67, 0.09);
+    --chart-1: #00687c; --chart-2: #9a5a00; --chart-3: #6b3fb5; --chart-4: #146c43; --chart-5: #b42335; --chart-grid: #dde5ec;
+    --shadow: 0 8px 24px rgba(20, 35, 50, 0.12);
+    --hatch: rgba(75, 96, 115, 0.16);
+  }
+}

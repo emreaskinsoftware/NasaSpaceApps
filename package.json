@@ -1,0 +1,63 @@
+{
+  "name": "aster",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "ASTER — simulation-first space health research console (research prototype, simulated data)",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite --config apps/web/vite.config.ts",
+    "dev:mission": "tsx apps/gateway/src/server.ts",
+    "dev:ground": "tsx apps/ground/src/server.ts",
+    "device:emulator": "tsx scripts/device-emulator.ts",
+    "build": "vite build --config apps/web/vite.config.ts",
+    "preview": "vite preview --config apps/web/vite.config.ts --port 4173 --strictPort",
+    "lint": "tsx scripts/lint.ts && tsx scripts/i18n-check.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "evaluate": "tsx scripts/evaluate.ts",
+    "capture:product": "playwright test --config playwright.capture.config.ts",
+    "slides:build": "tsx scripts/slides-build.ts",
+    "slides:verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/slides-render.ps1",
+    "report:build": "tsx scripts/report-build.ts",
+    "release:verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
+    "test:summary": "tsx scripts/test-summary.ts",
+    "references:generate": "tsx scripts/generate-references.ts"
+  },
+  "dependencies": {
+    "@fastify/websocket": "^11.3.7",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "dexie": "^4.4.7",
+    "fastify": "^5.12.8",
+    "i18next": "^27.1.1",
+    "motion": "^14.12.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-i18next": "^18.0.1",
+    "react-router-dom": "^7.18.5",
+    "ws": "^8.22.2",
+    "zod": "^4.6.7",
+    "zustand": "^5.1.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/ws": "^8.18.2",
+    "@vitejs/plugin-react": "^6.3.0",
+    "fake-indexeddb": "^6.2.8",
+    "pptxgenjs": "^4.0.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.1.0"
+  },
+  "packageManager": "pnpm@11.15.1"
+}

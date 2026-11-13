@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable", "WebWorker"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowImportingTsExtensions": false,
+    "noEmit": true,
+    "types": ["node", "vite/client"],
+    "paths": {
+      "@aster/contracts": ["./packages/contracts/src/index.ts"],
+      "@aster/engine": ["./packages/engine/src/index.ts"],
+      "@aster/simulator": ["./packages/simulator/src/index.ts"],
+      "@aster/evaluation": ["./packages/evaluation/src/index.ts"],
+      "@aster/comms": ["./packages/comms/src/index.ts"],
+      "@aster/runtime": ["./packages/runtime/src/index.ts"],
+      "@aster/adapters": ["./packages/adapters/src/index.ts"],
+      "@/*": ["./apps/web/src/*"]
+    }
+  },
+  "include": ["packages", "apps", "scripts", "tests", "*.ts"]
+}

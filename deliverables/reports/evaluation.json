@@ -1,0 +1,456 @@
+{
+ "generated": true,
+ "generatedAtUtc": "2026-11-13T13:17:38.899Z",
+ "engineVersion": "engine-1.0.0",
+ "generatorVersion": "sim-1.0.0",
+ "methodVersions": {
+  "cabin": "1.0.0",
+  "local-window": "1.0.0",
+  "phase-gated": "1.0.0",
+  "aligned-quality-aware": "1.0.0",
+  "fixed-filter": "1.0.0",
+  "paired-reference": "1.0.0",
+  "calibration-aware": "1.0.0",
+  "unconditioned": "1.0.0",
+  "matched-conditioned": "1.0.0",
+  "fluid-aware": "1.0.0",
+  "ablation-no-integrity": "1.0.0"
+ },
+ "ruleVersions": {
+  "ENV-CO2-01": "1.0.0",
+  "EXP-INH-01": "1.0.0",
+  "EXP-WH-01": "1.0.0",
+  "INT-CON-01": "1.0.0",
+  "INT-CAL-01": "1.0.0",
+  "EXR-DEV-01": "1.0.0",
+  "EXR-CMP-01": "1.0.0",
+  "EXR-IMP-01": "1.0.0",
+  "DQ-STALE-01": "1.0.0",
+  "DQ-QUAR-01": "1.0.0"
+ },
+ "codeCommit": "local-uncommitted",
+ "dataOrigin": "simulated",
+ "devSeeds": [
+  1,
+  2,
+  3,
+  4,
+  5
+ ],
+ "evalSeeds": [
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  115,
+  116,
+  117,
+  118,
+  119,
+  120
+ ],
+ "heldOutVariation": "gas sensor tau ×[0.6,1.6], transport delay offset [−100,+150] ms, second (4× slower) response stage weight [0,0.4], spatial gain ×[0.85,1.15], fluid attenuation [0,0.4], coupling exponent [1.1,1.9], actuator exponent [0.9,1.5], noise ×[0.7,1.6]",
+ "reference": {
+  "exposure": "simulator inhalation-phase mean pocket concentration per breath",
+  "integrity": "latent source-amplitude ratio vs. pre-fault baseline (rolling 6 s RMS)",
+  "exercise": "latent response change > 15 %"
+ },
+ "exposure": {
+  "cabin": {
+   "mae": 1192,
+   "maeSd": 1057,
+   "bias": -1192,
+   "coverage": 1,
+   "n": 5572
+  },
+  "local-window": {
+   "mae": 1259,
+   "maeSd": 583,
+   "bias": 1257,
+   "coverage": 1,
+   "n": 5572
+  },
+  "phase-gated": {
+   "mae": 1250,
+   "maeSd": 395,
+   "bias": 1250,
+   "coverage": 1,
+   "n": 5572
+  },
+  "aligned-quality-aware": {
+   "mae": 284,
+   "maeSd": 175,
+   "bias": 153,
+   "coverage": 1,
+   "n": 5572
+  }
+ },
+ "exposureDev": {
+  "cabin": {
+   "mae": 1188,
+   "maeSd": 1074,
+   "bias": -1188,
+   "coverage": 1,
+   "n": 1393
+  },
+  "local-window": {
+   "mae": 1243,
+   "maeSd": 546,
+   "bias": 1243,
+   "coverage": 1,
+   "n": 1393
+  },
+  "phase-gated": {
+   "mae": 1077,
+   "maeSd": 172,
+   "bias": 1077,
+   "coverage": 1,
+   "n": 1393
+  },
+  "aligned-quality-aware": {
+   "mae": 139,
+   "maeSd": 101,
+   "bias": -116,
+   "coverage": 1,
+   "n": 1393
+  }
+ },
+ "exposurePerScenario": {
+  "SIM-01": {
+   "cabin": {
+    "mae": 237,
+    "bias": -237
+   },
+   "local-window": {
+    "mae": 968,
+    "bias": 968
+   },
+   "phase-gated": {
+    "mae": 957,
+    "bias": 957
+   },
+   "aligned-quality-aware": {
+    "mae": 172,
+    "bias": 162
+   }
+  },
+  "SIM-02": {
+   "cabin": {
+    "mae": 1843,
+    "bias": -1843
+   },
+   "local-window": {
+    "mae": 1245,
+    "bias": 1245
+   },
+   "phase-gated": {
+    "mae": 1369,
+    "bias": 1369
+   },
+   "aligned-quality-aware": {
+    "mae": 296,
+    "bias": 120
+   }
+  },
+  "SIM-03": {
+   "cabin": {
+    "mae": 115,
+    "bias": -115
+   },
+   "local-window": {
+    "mae": 2115,
+    "bias": 2115
+   },
+   "phase-gated": {
+    "mae": 1341,
+    "bias": 1341
+   },
+   "aligned-quality-aware": {
+    "mae": 314,
+    "bias": 313
+   }
+  },
+  "SIM-11": {
+   "cabin": {
+    "mae": 2575,
+    "bias": -2575
+   },
+   "local-window": {
+    "mae": 706,
+    "bias": 699
+   },
+   "phase-gated": {
+    "mae": 1331,
+    "bias": 1331
+   },
+   "aligned-quality-aware": {
+    "mae": 352,
+    "bias": 16
+   }
+  }
+ },
+ "exposureCandidateBestShare": 0.7,
+ "exposureEvents": {
+  "missedWhenElevated": 0,
+  "falseWhenNotElevated": 0,
+  "slowSensorCoverage": 0,
+  "slowSensorWithheldEvent": 1,
+  "slowSensorFalseExposureEvent": 0,
+  "slowSensorGatedMae": 1817
+ },
+ "integrity": {
+  "SIM-05": {
+   "label": "coupling fault, source unchanged",
+   "methods": {
+    "fixed-filter": {
+     "featureErr": 0.585,
+     "coverage": 1,
+     "flaggedChange": 1
+    },
+    "paired-reference": {
+     "featureErr": 0.655,
+     "coverage": 1,
+     "flaggedChange": 1
+    },
+    "calibration-aware-gate": {
+     "featureErr": null,
+     "coverage": 0,
+     "flaggedChange": null
+    },
+    "calibration-aware-compensate": {
+     "featureErr": 0.299,
+     "coverage": 0.855,
+     "flaggedChange": 0.733
+    }
+   }
+  },
+  "SIM-06": {
+   "label": "source changed, contact stable",
+   "methods": {
+    "fixed-filter": {
+     "featureErr": 0.042,
+     "coverage": 0.92,
+     "flaggedChange": 0.985
+    },
+    "paired-reference": {
+     "featureErr": 0.043,
+     "coverage": 0.92,
+     "flaggedChange": 0.986
+    },
+    "calibration-aware-gate": {
+     "featureErr": 0.043,
+     "coverage": 0.92,
+     "flaggedChange": 0.986
+    },
+    "calibration-aware-compensate": {
+     "featureErr": 0.043,
+     "coverage": 0.92,
+     "flaggedChange": 0.986
+    }
+   }
+  },
+  "SIM-07": {
+   "label": "actuator-path mismatch, source unchanged",
+   "methods": {
+    "fixed-filter": {
+     "featureErr": 0.063,
+     "coverage": 0.898,
+     "flaggedChange": 0.002
+    },
+    "paired-reference": {
+     "featureErr": 0.064,
+     "coverage": 0.898,
+     "flaggedChange": 0.004
+    },
+    "calibration-aware-gate": {
+     "featureErr": 0.064,
+     "coverage": 0.898,
+     "flaggedChange": 0.004
+    },
+    "calibration-aware-compensate": {
+     "featureErr": 0.064,
+     "coverage": 0.898,
+     "flaggedChange": 0.004
+    }
+   }
+  },
+  "SIM-01": {
+   "label": "nominal",
+   "methods": {
+    "fixed-filter": {
+     "featureErr": 0.062,
+     "coverage": 0.833,
+     "flaggedChange": 0.013
+    },
+    "paired-reference": {
+     "featureErr": 0.062,
+     "coverage": 0.833,
+     "flaggedChange": 0.013
+    },
+    "calibration-aware-gate": {
+     "featureErr": 0.062,
+     "coverage": 0.833,
+     "flaggedChange": 0.013
+    },
+    "calibration-aware-compensate": {
+     "featureErr": 0.062,
+     "coverage": 0.833,
+     "flaggedChange": 0.013
+    }
+   }
+  }
+ },
+ "integrityEvents": {
+  "contactEventLatencyMs": 5100,
+  "contactEventMissed": 0,
+  "falseDeviationEventDuringCouplingFault": 0,
+  "pathMismatchRejected": 1
+ },
+ "exercise": {
+  "SIM-01": {
+   "label": "no change (should not flag)",
+   "methods": {
+    "unconditioned": {
+     "flagged": 0,
+     "abstained": 0.061
+    },
+    "matched-conditioned": {
+     "flagged": 0.003,
+     "abstained": 0.061
+    },
+    "fluid-aware": {
+     "flagged": 0,
+     "abstained": 0.061
+    },
+    "ablation-no-integrity": {
+     "flagged": 0.003,
+     "abstained": 0.056
+    }
+   }
+  },
+  "SIM-08": {
+   "label": "response changed (should flag)",
+   "methods": {
+    "unconditioned": {
+     "flagged": 0,
+     "abstained": 0
+    },
+    "matched-conditioned": {
+     "flagged": 0.99,
+     "abstained": 0
+    },
+    "fluid-aware": {
+     "flagged": 1,
+     "abstained": 0
+    },
+    "ablation-no-integrity": {
+     "flagged": 0.998,
+     "abstained": 0
+    }
+   }
+  },
+  "SIM-09": {
+   "label": "load mismatch (should abstain)",
+   "methods": {
+    "unconditioned": {
+     "flagged": 0.544,
+     "abstained": 0
+    },
+    "matched-conditioned": {
+     "flagged": null,
+     "abstained": 1
+    },
+    "fluid-aware": {
+     "flagged": null,
+     "abstained": 1
+    },
+    "ablation-no-integrity": {
+     "flagged": null,
+     "abstained": 1
+    }
+   }
+  },
+  "SIM-10": {
+   "label": "fluid shift only (should not flag)",
+   "methods": {
+    "unconditioned": {
+     "flagged": 0,
+     "abstained": 0
+    },
+    "matched-conditioned": {
+     "flagged": 0.032,
+     "abstained": 0
+    },
+    "fluid-aware": {
+     "flagged": 0.032,
+     "abstained": 0
+    },
+    "ablation-no-integrity": {
+     "flagged": 0.211,
+     "abstained": 0
+    }
+   }
+  },
+  "SIM-05": {
+   "label": "contact fault (should abstain or not flag)",
+   "methods": {
+    "unconditioned": {
+     "flagged": null,
+     "abstained": 1
+    },
+    "matched-conditioned": {
+     "flagged": null,
+     "abstained": 1
+    },
+    "fluid-aware": {
+     "flagged": null,
+     "abstained": 1
+    },
+    "ablation-no-integrity": {
+     "flagged": 1,
+     "abstained": 0
+    }
+   }
+  }
+ },
+ "exerciseDeviationEventRate": {
+  "SIM-01": 0,
+  "SIM-08": 1,
+  "SIM-09": 0,
+  "SIM-10": 0.1,
+  "SIM-05": 0
+ },
+ "deterministic": true,
+ "operations": {
+  "scenario": "SIM-12 seed 7",
+  "packages": 2,
+  "firstPackageBytes": 3118,
+  "queueWaitMs": 82800,
+  "outageMs": 100000,
+  "duplicatesInjected": 2,
+  "casesStoredOnGround": 2,
+  "duplicateDeliveriesIgnored": 2,
+  "bytesOnLink": 6807
+ },
+ "performance": {
+  "run": "4 crew, 30 simulated minutes, SIM-01 seed 5",
+  "wallMs": 2059,
+  "realTimeFactor": 874,
+  "maxTickMs": 5.5,
+  "heapAt10MinMb": 11.1,
+  "heapAt30MinMb": 32.2,
+  "machine": "win32 x64, Node v24.11.0"
+ },
+ "runs": 240,
+ "wallSeconds": 25
+}
