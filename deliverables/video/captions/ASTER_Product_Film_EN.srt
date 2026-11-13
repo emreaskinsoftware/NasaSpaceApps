@@ -1,0 +1,64 @@
+1
+00:00:01,200 --> 00:00:05,600
+In space, a changing signal can tell more than one story.
+
+2
+00:00:05,720 --> 00:00:08,100
+The environment may have changed.
+
+3
+00:00:08,190 --> 00:00:10,200
+The body may be responding.
+
+4
+00:00:10,250 --> 00:00:13,200
+Or the sensor may have lost reliable contact.
+
+5
+00:00:13,360 --> 00:00:19,900
+Meet ASTER: an offline-capable research console that brings those possibilities into view.
+
+6
+00:00:20,070 --> 00:00:26,600
+Breathing and Exposure aligns local carbon dioxide measurements with the respiratory cycle.
+
+7
+00:00:26,780 --> 00:00:32,600
+It explores what the crew member may be inhaling, while showing the limits of the estimate.
+
+8
+00:00:32,730 --> 00:00:36,900
+Sensor Integrity checks the quality of the measurement connection.
+
+9
+00:00:37,050 --> 00:00:48,300
+When contact becomes unreliable, ASTER marks the affected interpretation instead of presenting uncertain data as a confident conclusion.
+
+10
+00:00:48,490 --> 00:00:58,900
+Exercise and Muscle Response compares similar activity under similar loads, with mechanical signals and fluid-sensitive measurements kept in context.
+
+11
+00:00:59,090 --> 00:01:05,600
+Each event connects observations, quality checks, and versioned rules to an inspectable explanation.
+
+12
+00:01:05,790 --> 00:01:10,100
+When the ground link is unavailable, the case remains accessible locally.
+
+13
+00:01:10,260 --> 00:01:19,200
+When communication resumes, its evidence can be delivered and reviewed, with replies linked to the correct revision.
+
+14
+00:01:19,330 --> 00:01:28,700
+A reproducible simulation lab lets researchers challenge these methods with noise, missing data, and conflicting signals.
+
+15
+00:01:28,890 --> 00:01:34,300
+ASTER is a research prototype, demonstrated with simulated data.
+
+16
+00:01:34,420 --> 00:01:40,800
+Its purpose is to make the evidence, the uncertainty, and the next research step visible.
+

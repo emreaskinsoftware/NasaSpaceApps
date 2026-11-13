@@ -136,11 +136,11 @@ Target WCAG 2.2 AA. Automated axe checks pass on all 11 routes in both themes; n
 - Presentations: `deliverables/presentation/` — `ASTER_Product_Overview` and `ASTER_Short_Pitch` (English), `ASTER_Urun_Sunumu_TR` and `ASTER_Kisa_Sunum_TR` (Turkish); PPTX, PDF, thumbnails, speaker notes, asset manifest, QA report.
 - Project report: `deliverables/report/` (English and Turkish PDF).
 - Product captures and a raw, silent 1080p screen recording of the real app: `deliverables/captures/`.
-- Video: see `deliverables/video/README.md` for the production package and its current status.
+- Video: `deliverables/video/ASTER_Product_Film_EN_1080p.mp4` — main film with English narration (103 s, 1080p). Product scenes are the real application; narration, music and one abstract insert were generated with Higgsfield. The audio has not been reviewed by ear; see `deliverables/video/README.md`.
 
 ## Known deviations from the build specification
 
-Recorded in [docs/IMPLEMENTATION_DECISIONS.md](docs/IMPLEMENTATION_DECISIONS.md): single package with path aliases instead of a multi-package workspace; hand-written CSS tokens instead of Tailwind/shadcn; a custom SVG chart instead of ECharts; project lint instead of ESLint (no TypeScript 7 support yet); hash routing; narrated video not produced. The React Bits / 21st.dev review is in [docs/UI_COMPONENT_PROVENANCE.md](docs/UI_COMPONENT_PROVENANCE.md). The original specification is preserved in [docs/specification/](docs/specification/).
+Recorded in [docs/IMPLEMENTATION_DECISIONS.md](docs/IMPLEMENTATION_DECISIONS.md): single package with path aliases instead of a multi-package workspace; hand-written CSS tokens instead of Tailwind/shadcn; a custom SVG chart instead of ECharts; project lint instead of ESLint (no TypeScript 7 support yet); hash routing; only the main film was produced (no vertical cut or walkthrough). The React Bits / 21st.dev review is in [docs/UI_COMPONENT_PROVENANCE.md](docs/UI_COMPONENT_PROVENANCE.md). The original specification is preserved in [docs/specification/](docs/specification/).
 
 ## Licences and notices
 

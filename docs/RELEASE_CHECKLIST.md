@@ -31,7 +31,9 @@ State of the local deliverable at the end of the build session. "Done" items wer
 - [x] Project report, English and Turkish (PDF + HTML)
 - [x] Presentations, English and Turkish, full and short (PPTX + PDF + thumbnails + notes + QA report)
 - [x] Real product stills and raw screen recording
-- [ ] **Narrated product videos** — not rendered: the Higgsfield connector was not connected and no voice/TTS or full FFmpeg toolchain was available (`deliverables/video/README.md`)
+- [x] **Main product film** rendered (`deliverables/video/ASTER_Product_Film_EN_1080p.mp4`); frames inspected, loudness measured
+- [ ] **Listen-through of the film** by a person (pronunciation, pacing, music balance, caption timing)
+- [ ] **Vertical cut and technical walkthrough** — not produced (`deliverables/video/README.md`)
 
 ## Publication
 

@@ -1,39 +1,70 @@
 {
- "status": "not-rendered",
- "reason": "Higgsfield connector not connected in the build session; no TTS/voice service and no full FFmpeg available",
+ "status": "main-film-rendered",
  "deliverables": {
-  "mainFilm": null,
+  "mainFilm": {
+   "file": "deliverables/video/ASTER_Product_Film_EN_1080p.mp4",
+   "sha256": "ed03a8a26b2c9e2ef163c67c31630b81ee1cb5e7b2afc317552e5f9db474dbf5",
+   "seconds": 103.4,
+   "video": "H.264, 1920x1080, 30 fps",
+   "audio": "AAC 48 kHz mono, -16.6 LUFS integrated, true peak -1.5 dBTP (measured with ffmpeg loudnorm)",
+   "build": "python scripts/video-build.py"
+  },
   "socialCut": null,
   "walkthrough": null,
-  "narrationWav": null,
-  "finalCaptions": null,
-  "posters": null
+  "finalCaptions": ["deliverables/video/captions/ASTER_Product_Film_EN.srt", "deliverables/video/captions/ASTER_Product_Film_EN.vtt"],
+  "posters": ["deliverables/video/poster-main.png"]
  },
- "prepared": {
-  "footage": "deliverables/captures/ASTER_product_capture_SIM-11_seed11_1080p.webm",
-  "stills": 34,
-  "narration": "deliverables/video/narration.md",
-  "shotList": "deliverables/video/shot-list.md",
-  "prompts": "deliverables/video/higgsfield-prompts.md",
-  "draftCaptions": "deliverables/video/captions/ASTER_Product_Film_draft.srt (estimated timing, 99 s; regenerate from final audio)"
+ "review": {
+  "visual": "sampled frames from every shot inspected",
+  "audio": "loudness and duration measured; the narration has NOT been listened to by a person (pronunciation, pacing and mix balance unreviewed)",
+  "captions": "timed from pauses detected in the narration track, not from speech recognition; not checked against the audio by ear"
  },
  "footageProvenance": {
+  "source": "deliverables/captures/ASTER_product_capture_SIM-11_seed11_1080p.webm and stills exercise-matched-dark.png (SIM-08), lab-evaluation-dark.png",
   "scenario": "SIM-11",
   "seed": 11,
   "theme": "dark",
   "locale": "en",
-  "viewport": "1920x1080",
-  "playback": "10x accelerated simulation",
+  "playback": "10x accelerated simulation, retimed in the edit (0.8x to 1.8x) to follow the narration",
   "dataOrigin": "simulated",
-  "appBuild": "vite build of the local working tree (uncommitted)",
-  "postProduction": "none"
+  "postProduction": "cuts, retiming, one crop (shot 1), slow push-in on stills, text overlays; the interface itself is not altered or generated"
  },
  "claims": "docs/CLAIM_LEDGER.md",
- "voice": {
-  "provider": null,
-  "model": null,
-  "voice": null,
-  "licence": null
- },
- "generatedInserts": []
+ "generated": {
+  "service": "Higgsfield (MCP connector), free plan, 2026-11-13; 9.47 of 10 credits used",
+  "licence": "The connector returned no licence, watermark or commercial-use terms for free-plan outputs. Check Higgsfield's terms before any use beyond this demonstration.",
+  "voice": {
+   "file": "deliverables/video/assets/narration_qwen_alistair.mp3",
+   "sha256": "29ca4a8ab80b9199d86d136744c65458418a50dabe61cbce220e6eaf0f862ddb",
+   "model": "qwen_audio_tts",
+   "voice": "preset 'Alistair' (synthetic; no real person imitated)",
+   "jobId": "6bba5303-b603-4063-8311-cb8eebc2da5c",
+   "seconds": 99.8,
+   "credits": 0.59,
+   "text": "narration.md section 1, with 'ASTER' written 'Aster' for pronunciation"
+  },
+  "music": {
+   "file": "deliverables/video/assets/music_elevenlabs_v2.mp3",
+   "sha256": "08660d09ea6e73d45d90cf33a30586de33cf9aeb91a8662f475614118d5b5b33",
+   "model": "elevenlabs_music_v2 (instrumental)",
+   "jobId": "7cd5866d-62ff-4065-8572-4be54f71f314",
+   "seconds": 45,
+   "credits": 2.88,
+   "use": "looped under the narration at low level"
+  },
+  "inserts": [
+   {
+    "promptId": "A1",
+    "file": "deliverables/video/assets/insert_A1_veo3_1_lite.mp4",
+    "sha256": "4bcca04d3a59651e3a1d3e78756992a42ed4ddd9bde02d942fc1d7a870fe9345",
+    "model": "veo3_1_lite",
+    "jobId": "7f97a634-829f-4e09-8af3-039a73212749",
+    "seed": "not reported",
+    "source": "1280x720, 24 fps, 4 s; upscaled and slowed with motion interpolation to 7.6 s",
+    "credits": 6,
+    "onScreenLabel": "Illustration · AI-generated footage, not the product"
+   }
+  ],
+  "refused": "seedance_2_0_mini and grok_video_v15_lite: 'Requires basic plan or higher' (no charge). Inserts A2, A3, B1 and C1 were not generated."
+ }
 }

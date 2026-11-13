@@ -1,39 +1,38 @@
-# ASTER product video — production package and status
+# ASTER product video
 
-## Status: NOT RENDERED
+## Status: main film rendered; vertical cut and walkthrough not produced
 
-No narrated video exists yet. This folder is a production package, not a finished deliverable.
+| Item | File |
+|---|---|
+| Main film, English narration, 1920×1080, 30 fps, 103 s | `ASTER_Product_Film_EN_1080p.mp4` |
+| Captions | `captions/ASTER_Product_Film_EN.srt`, `captions/ASTER_Product_Film_EN.vtt` |
+| Poster frame | `poster-main.png` |
+| Generated assets (voice, music, one insert) | `assets/` |
+| Sources, hashes, models, job ids | `video-manifest.json` |
 
-**Blocker.** The film was to be generated through the Higgsfield connector. In the build session that connector was not connected (no Higgsfield tool was exposed and none is listed in the connector registry), and no other video-generation, TTS/voice or full FFmpeg toolchain was available. A silent export or a slideshow would not meet the brief, so none was produced.
+![Poster frame](poster-main.png)
 
-**To finish:** connect the Higgsfield connector (or provide another video/voice tool) and run the plan below. Everything that does not depend on it is ready.
+## How it was made
 
-## What is ready
+- **Product scenes are the real application.** They come from the screen recording and stills in `../captures/` (scenario SIM-11, seed 11; SIM-08 for the matched exercise view). The edit cuts, retimes and labels that footage; nothing in the interface is generated or repainted.
+- **Generated with the Higgsfield connector** (free plan, 9.47 of 10 credits): the English narration (`qwen_audio_tts`, synthetic preset voice), an instrumental music bed (`elevenlabs_music_v2`) and one four-second abstract insert (`veo3_1_lite`, prompt A1 in `higgsfield-prompts.md`). The insert carries the on-screen label "Illustration · AI-generated footage, not the product".
+- **Assembly** is scripted: `python scripts/video-build.py` (needs `pip install imageio-ffmpeg pillow`). Shot boundaries follow the pauses measured in the narration track.
 
-| Item | File | Notes |
-|---|---|---|
-| Real product footage, 1920×1080, silent, ≈ 70 s | `../captures/ASTER_product_capture_SIM-11_seed11_1080p.webm` | Recorded from the running application (scenario SIM-11, seed 11, 10× accelerated simulation shown in the product strip). No post-production. |
-| Real product stills (dark, light, TR, AR, JA, DE) | `../captures/*.png`, `../captures/capture-manifest.json` | For close-ups, vertical reframing and poster frames |
-| Narration scripts (main ≈ 105 s, vertical ≈ 35 s, walkthrough 3–4 min) | `narration.md` | Every sentence checked against the implementation and the claim ledger |
-| Shot list with source timecodes and on-screen lines | `shot-list.md` | Maps each storyboard beat to the captured footage or a still |
-| Generation prompts for non-product inserts | `higgsfield-prompts.md` | Abstract/explanatory shots only; product scenes must be the real capture |
-| Draft captions (main film) | `captions/ASTER_Product_Film_draft.srt` | Estimated timing at ≈ 135 words/min; **must be regenerated from the final voice track** |
-| Manifest | `video-manifest.json` | Sources, claims, open dependencies |
+## What has and has not been checked
 
-## Rules that still apply when the film is rendered
+- Checked: frames from every shot were inspected; duration, dimensions, frame rate and loudness were measured (−16.6 LUFS integrated, true peak −1.5 dBTP).
+- **Not checked: nobody has listened to the film.** Pronunciation, pacing, the music balance and caption timing against the voice are unreviewed. Listen once before showing it.
+- The narration makes no quantitative claim; on-screen numbers are the application's own simulated values.
+- Higgsfield returned no licence or commercial-use terms for free-plan outputs. Confirm its terms before using the film outside this demonstration.
 
-1. Primary scenes show the real application. Do not regenerate, repaint or "improve" the interface with a video model; generated footage is limited to the abstract inserts in `higgsfield-prompts.md`.
-2. Keep "Research prototype · Simulated data" visible or restated in every scene that could be mistaken for a clinical result; label fast playback "Accelerated simulation"; label any wearable render "Hardware concept".
-3. No NASA logo, no testimonial, no award badge, no "clinically proven", "first" or "saves lives". No number that is not in `docs/CLAIM_LEDGER.md`.
-4. Voice: a licensed, clearly synthetic or recorded English voice; no imitation of an astronaut, official or identifiable person. Record provider, model, voice and licence in the manifest.
-5. Targets: 1920×1080 and 1080×1920, 30 fps, H.264 MP4; ≈ −16 LUFS integrated, true peak ≤ −1 dBTP; SRT + WebVTT captions generated from the final audio; poster frames from the rendered video.
-6. Closing credit, only if still accurate: "Built with Claude Fable 5.2 · Research prototype".
+## Not produced
 
-## Acceptance checklist (all open)
+- Vertical social cut (≈ 35 s) and the 3–4 minute technical walkthrough; scripts are in `narration.md`, the plan in `shot-list.md`.
+- Inserts A2, A3, B1 and C1: the cheaper video models are refused on the free plan and the remaining credits did not cover another clip. The "Body" and "Measurement" words therefore share the single insert.
 
-- [ ] Main film, vertical cut and walkthrough rendered and playable
-- [ ] English narration present and intelligible
-- [ ] Captions match the final voice
-- [ ] Simulation / experimental / concept / accelerated labels visible
-- [ ] Loudness, dimensions, frame rate, duration and integrity recorded
-- [ ] Poster frames and final links added to the README
+## Rules that apply to any further cut
+
+1. Primary scenes show the real application; generated footage is limited to the abstract inserts.
+2. Keep "Research prototype · Simulated data" visible; label fast playback "accelerated simulation" and any wearable render "Hardware concept".
+3. No NASA logo, testimonial, award badge, "clinically proven", "first" or "saves lives"; no number that is not in `docs/CLAIM_LEDGER.md`.
+4. Voice must be clearly synthetic or a licensed recording; no imitation of an identifiable person.

@@ -14,3 +14,4 @@ deliverables/video/raw
 deliverables/captures/*.webm
 deliverables/captures/video-tmp
 .vitest
+deliverables/video/.build
