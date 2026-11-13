@@ -37,7 +37,7 @@ State of the local deliverable at the end of the build session. "Done" items wer
 
 ## Publication
 
-- [x] Git repository initialised on top of the existing remote history; pushed to `github.com/umitcancinar/NasaSpaceApps` without force
+- [x] Git repository initialised on top of the existing remote history; pushed to `github.com/umitcancinar/NasaSpaceApps`; project commits rewritten once to correct authorship (initial commit unchanged)
 - [ ] CI result checked, GitHub Release with large media — the GitHub CLI is not installed on the build machine
 
 Still open before a public submission: choose a licence, add the team name, check the first CI run, and attach the raw screen recording (kept out of Git) to a Release if it is wanted.
