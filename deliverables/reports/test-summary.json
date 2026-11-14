@@ -1,16 +1,16 @@
 {
- "generatedAtUtc": "2026-11-13T15:23:21.601Z",
- "unit": 89,
- "unitTotal": 89,
+ "generatedAtUtc": "2026-11-14T06:54:29.851Z",
+ "unit": 95,
+ "unitTotal": 95,
  "unitFailed": 0,
  "unitFiles": 4,
- "e2e": 27,
+ "e2e": 30,
  "e2eFailed": 0,
  "e2eEngines": [
   "Chrome",
   "Firefox (Playwright build)",
   "WebKit (Playwright build)"
  ],
- "e2ePerEngine": 9,
+ "e2ePerEngine": 10,
  "node": "v24.11.0"
 }

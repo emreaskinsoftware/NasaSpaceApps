@@ -1,18 +1,18 @@
 {
  "generated": true,
- "generatedAtUtc": "2026-11-13T13:17:38.899Z",
- "engineVersion": "engine-1.0.0",
+ "generatedAtUtc": "2026-11-14T06:25:02.873Z",
+ "engineVersion": "engine-1.0.1",
  "generatorVersion": "sim-1.0.0",
  "methodVersions": {
   "cabin": "1.0.0",
   "local-window": "1.0.0",
   "phase-gated": "1.0.0",
-  "aligned-quality-aware": "1.0.0",
+  "aligned-quality-aware": "1.0.1",
   "fixed-filter": "1.0.0",
   "paired-reference": "1.0.0",
-  "calibration-aware": "1.0.0",
+  "calibration-aware": "1.0.1",
   "unconditioned": "1.0.0",
-  "matched-conditioned": "1.0.0",
+  "matched-conditioned": "1.0.1",
   "fluid-aware": "1.0.0",
   "ablation-no-integrity": "1.0.0"
  },
@@ -444,13 +444,13 @@
  },
  "performance": {
   "run": "4 crew, 30 simulated minutes, SIM-01 seed 5",
-  "wallMs": 2059,
-  "realTimeFactor": 874,
-  "maxTickMs": 5.5,
-  "heapAt10MinMb": 11.1,
-  "heapAt30MinMb": 32.2,
+  "wallMs": 3978,
+  "realTimeFactor": 452,
+  "maxTickMs": 9.4,
+  "heapAt10MinMb": -4.6,
+  "heapAt30MinMb": 44.4,
   "machine": "win32 x64, Node v24.11.0"
  },
  "runs": 240,
- "wallSeconds": 25
+ "wallSeconds": 46.7
 }

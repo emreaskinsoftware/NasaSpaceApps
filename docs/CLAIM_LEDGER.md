@@ -14,12 +14,12 @@ Every statement used in the README, report, slides or video script must appear h
 | C8 | Gain compensation leaves a systematic error (0.299) and is experimental | Verified (negative result) | `evaluation.json` → `integrity.SIM-05` | `pnpm evaluate` |
 | C9 | Matched comparison abstains on load mismatch (100 %) while the unconditioned baseline flags 54 % | Verified in simulation | `evaluation.json` → `exercise.SIM-09` | `pnpm evaluate` |
 | C10 | A fluid shift alone caused a false deviation event in 10 % of runs | Verified (negative result) | `evaluation.json` → `exerciseDeviationEventRate.SIM-10` | `pnpm evaluate` |
-| C11 | 89 unit/integration tests pass; 9 browser tests pass in each of Chrome, Firefox and WebKit (Playwright builds) | Verified | `deliverables/reports/test-summary.json` | `npx tsx scripts/test-summary.ts` |
+| C11 | 95 unit/integration tests pass; 10 browser tests pass in each of Chrome, Firefox and WebKit (Playwright builds) | Verified | `deliverables/reports/test-summary.json` | `npx tsx scripts/test-summary.ts` |
 | C12 | Automated accessibility checks pass on every route in both themes | Verified (automated rules only) | e2e "automated accessibility checks …" | `pnpm test:e2e` |
 | C13 | Seven core locales with key parity | Verified (parity); translation quality **not** reviewed by native speakers | unit "localisation", `scripts/i18n-check.ts` | `pnpm lint` |
 | C14 | Serial, WebSocket and replay paths are emulator-verified | Verified at that level only | adapters and servers tests, `pnpm device:emulator` | `pnpm test` |
 | C15 | Independent security review: no critical/high finding; 10 findings fixed | Verified | `docs/SECURITY.md`, regression tests | `pnpm test` |
-| C16 | 4 crew, 30 simulated minutes in ≈ 2 s; bounded heap | Measured on one machine (win32 x64, Node 24.11) | `evaluation.json` → `performance` | `pnpm evaluate` |
+| C16 | 4 crew, 30 simulated minutes in 2–4 s across runs; bounded heap | Measured on one machine (win32 x64, Node 24.11) | `evaluation.json` → `performance` | `pnpm evaluate` |
 
 ## Not claimed (must not appear anywhere)
 

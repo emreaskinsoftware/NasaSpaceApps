@@ -27,11 +27,14 @@ const REPO = 'github.com/umitcancinar/NasaSpaceApps';
 const pct = (x: number | null) => (x === null || x === undefined ? '—' : `${Math.round(x * 100)} %`);
 const assets = new Set<string>();
 
+const TEAM = { captain: 'Ümitcan Çınar', members: ['Emre Aşkın', 'Fatma Türkmen'] };
+const TEAM_L: Record<Lang, { team: string; captain: string; members: string }> = { en: { team: 'Team', captain: 'Team captain', members: 'Members' }, tr: { team: 'Takım', captain: 'Takım kaptanı', members: 'Üyeler' } };
+
 function deck(lang: Lang, short: boolean): { pptx: Pptx; notes: string[] } {
   const c: Copy = COPY[lang];
   const pptx = new PptxGenJS();
   pptx.layout = 'LAYOUT_WIDE';
-  pptx.author = 'ASTER team'; pptx.company = 'ASTER'; pptx.title = `ASTER — ${c.s1.h}`; pptx.subject = c.label;
+  pptx.author = [TEAM.captain, ...TEAM.members].join(', '); pptx.company = 'ASTER'; pptx.title = `ASTER — ${c.s1.h}`; pptx.subject = c.label;
   const notes: string[] = [];
   let n = 0;
   const cap = (name: string, trName?: string) => { const f = lang === 'tr' && trName && existsSync(join(CAP, `${trName}.png`)) ? trName : name; assets.add(`${f}.png`); return join(CAP, `${f}.png`); };
@@ -84,7 +87,11 @@ function deck(lang: Lang, short: boolean): { pptx: Pptx; notes: string[] } {
     s.addText('ASTER', { x: MX, y: 0.7, w: 4, h: 0.5, fontFace: FONT, fontSize: 20, bold: true, color: p.accent, charSpacing: 6, margin: 0 });
     s.addText(c.s1.h, { x: MX, y: 1.45, w: 5.3, h: 2.6, fontFace: FONT, fontSize: 38, bold: true, color: p.text, valign: 'top', margin: 0 });
     s.addText(c.s1.sub, { x: MX, y: 4.15, w: 5.2, h: 1.5, fontFace: FONT, fontSize: 20, color: p.text2, valign: 'top', margin: 0 });
-    s.addText(c.s1.ctx, { x: MX, y: 5.95, w: 5.3, h: 0.4, fontFace: FONT, fontSize: 14, color: p.text2, margin: 0 });
+    s.addText(c.s1.ctx, { x: MX, y: 5.6, w: 5.3, h: 0.35, fontFace: FONT, fontSize: 14, color: p.text2, margin: 0 });
+    s.addText([
+      { text: `${TEAM_L[lang].captain}: `, options: { color: p.accent } }, { text: TEAM.captain, options: { color: p.text, breakLine: true } },
+      { text: `${TEAM_L[lang].members}: `, options: { color: p.accent } }, { text: TEAM.members.join(', '), options: { color: p.text } },
+    ], { x: MX, y: 6.0, w: 5.3, h: 0.72, fontFace: FONT, fontSize: 14, valign: 'top', margin: 0 });
     shot(s, p, cap('overview-dark', 'overview-tr'), 6.25, 1.35, 6.5, 'SIM-11 · seed 11');
   };
   const s2 = () => {
@@ -212,7 +219,13 @@ function deck(lang: Lang, short: boolean): { pptx: Pptx; notes: string[] } {
     s.addText(c.s14.h, { x: MX, y: 0.9, w: 5.6, h: 2.6, fontFace: FONT, fontSize: 34, bold: true, color: p.text, valign: 'top', margin: 0 });
     s.addText(c.s14.sub, { x: MX, y: 3.6, w: 5.4, h: 0.9, fontFace: FONT, fontSize: 20, color: p.text2, valign: 'top', margin: 0 });
     s.addText(REPO, { x: MX, y: 4.7, w: 5.6, h: 0.5, fontFace: MONO, fontSize: 18, color: p.accent, margin: 0, hyperlink: { url: `https://${REPO}` } });
-    s.addText(c.s14.credit, { x: MX, y: 5.5, w: 5.4, h: 0.8, fontFace: FONT, fontSize: 12, color: p.text2, valign: 'top', margin: 0 });
+    s.addShape('rect', { x: MX, y: 5.32, w: 0.07, h: 0.98, fill: { color: p.accent }, line: { color: p.accent, width: 0 } });
+    s.addText(TEAM_L[lang].team, { x: MX + 0.22, y: 5.28, w: 5.2, h: 0.3, fontFace: FONT, fontSize: 12, bold: true, color: p.accent, margin: 0 });
+    s.addText([
+      { text: TEAM.captain, options: { bold: true, color: p.text } }, { text: ` — ${TEAM_L[lang].captain}`, options: { color: p.text2, breakLine: true } },
+      { text: TEAM.members.join(' · '), options: { color: p.text } }, { text: ` — ${TEAM_L[lang].members}`, options: { color: p.text2 } },
+    ], { x: MX + 0.22, y: 5.58, w: 5.3, h: 0.75, fontFace: FONT, fontSize: 16, valign: 'top', margin: 0 });
+    s.addText(c.s14.credit, { x: MX, y: 6.42, w: 5.6, h: 0.45, fontFace: FONT, fontSize: 11, color: p.text2, valign: 'top', margin: 0 });
     shot(s, p, cap('case-reply-dark', 'case-detail-tr'), 6.5, 1.55, 6.25, `SIM-11 · ${c.simLabel}`);
   };
   const sModules = () => {

@@ -115,7 +115,7 @@ pnpm slides:build && pnpm slides:verify   # decks → PPTX, then PDF + thumbnail
 pnpm report:build    # project report (EN + TR) → deliverables/report/
 ```
 
-Current counts are recorded in `deliverables/reports/test-summary.json` (89 unit/integration tests and 9 browser tests run in each of Chrome, Firefox and WebKit, all passing at the time of writing). The Firefox and WebKit builds are Playwright's; Safari on macOS/iOS was not tested. First-time setup for the browser tests: `npx playwright install firefox webkit ffmpeg`.
+Current counts are recorded in `deliverables/reports/test-summary.json` (95 unit/integration tests and 10 browser tests run in each of Chrome, Firefox and WebKit, all passing at the time of writing). The Firefox and WebKit builds are Playwright's; Safari on macOS/iOS was not tested. First-time setup for the browser tests: `npx playwright install firefox webkit ffmpeg`.
 
 ## Results, with limitations
 
@@ -145,6 +145,14 @@ Recorded in [docs/IMPLEMENTATION_DECISIONS.md](docs/IMPLEMENTATION_DECISIONS.md)
 ## Licences and notices
 
 No licence has been adopted for this project yet. Third-party packages keep their own licences ([docs/DEPENDENCIES.md](docs/DEPENDENCIES.md)). One component is adapted from React Bits (MIT + Commons Clause; licence text in `apps/web/src/components/reactbits/`). Fonts: Inter and IBM Plex Mono (SIL OFL 1.1), self-hosted via `@fontsource`. No NASA insignia, stock imagery or third-party artwork is used; NASA and other sources are cited as attribution, not endorsement.
+
+## Team
+
+NASA Space Apps Challenge · Malatya
+
+- **Ümitcan Çınar** — team captain
+- **Emre Aşkın** — member
+- **Fatma Türkmen** — member
 
 ## AI assistance disclosure
 

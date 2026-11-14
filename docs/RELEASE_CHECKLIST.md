@@ -17,8 +17,8 @@ State of the local deliverable at the end of the build session. "Done" items wer
 ## Verification
 
 - [x] `pnpm lint`, `pnpm typecheck`
-- [x] `pnpm test` — 89 unit/integration tests
-- [x] `pnpm test:e2e` — 9 browser tests × 3 engines (Chrome, Firefox, WebKit), including automated accessibility checks
+- [x] `pnpm test` — 95 unit/integration tests
+- [x] `pnpm test:e2e` — 10 browser tests × 3 engines (Chrome, Firefox, WebKit), including automated accessibility checks. One intermittent failure was seen in one of four full runs on 2026-11-14 (test not identified; 120 of 121 test executions passed)
 - [x] `pnpm evaluate` — held-out evaluation, negative results retained
 - [x] Independent security review; all confirmed findings fixed with regression tests
 - [x] `pnpm audit` — one low-severity build-time advisory without a published fix

@@ -28,7 +28,7 @@ Decks: `ASTER_Product_Overview` (EN, 14 + 3 appendix), `ASTER_Short_Pitch` (EN, 
 ## Open items
 
 - Slide screenshots were re-captured after the visual redesign (Motion animations, new entry screen); the decks show the current build.
-- Team name is not on the title slide: no confirmed team identity was available. Add it before presenting.
+- The seven-slide English deck `ASTER_Short_Pitch` is the competition deck (limit: 7 slides, English). Team captain and members are on its title and closing slides.
 - The short decks were inspected as contact sheets only, not presented at projector scale.
 - Turkish copy was written by the build agent and has not been proof-read by a second native speaker.
 - Competition pitch length/format requirements were not verified (the supplied challenge page was unreachable when the specification was written).
