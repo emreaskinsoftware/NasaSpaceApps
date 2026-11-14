@@ -15,3 +15,4 @@ deliverables/captures/*.webm
 deliverables/captures/video-tmp
 .vitest
 deliverables/video/.build
+.vercel
