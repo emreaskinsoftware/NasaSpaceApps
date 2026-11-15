@@ -13,7 +13,7 @@ Source footage: `../captures/ASTER_product_capture_SIM-11_seed11_1080p.webm` (SI
 | 7 | 69–82 s | Recording ≈ 0:48–0:55 (case detail) or `case-detail-dark.png` | Observation → quality → rule → evidence → next step; limitations | "Every interpretation has a reason." | Procedure not validated |
 | 8 | 82–94 s | Recording ≈ 0:55–1:08 (Ground Console → reply → case) + `cases-queued-dark.png`, `ground-received-dark.png`, `case-reply-dark.png` | Queued → delivered → reply linked to revision | "Local continuity. Ground review." | Accelerated simulation |
 | 9 | 94–100 s | Recording ≈ 1:08–1:12 (Simulation Lab) + `lab-evaluation-dark.png` | Scenario gallery; held-out table | "Reproducible scenarios. Visible limits." | Held-out simulation |
-| 10 | 100–105 s | Lock-up on plain graphite | ASTER wordmark, `github.com/umitcancinar/NasaSpaceApps` (only once the code is actually published there) | "Explore ASTER." | Research prototype · Built with Claude Fable 5.2 |
+| 10 | 100–105 s | Lock-up on plain graphite | ASTER wordmark, `github.com/emreaskinsoftware/NasaSpaceApps` (only once the code is actually published there) | "Explore ASTER." | Research prototype · Built with Claude Fable 5.2 |
 
 ## Vertical cut (1080×1920, ≈ 35 s)
 

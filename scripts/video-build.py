@@ -40,7 +40,7 @@ def overlay(name, line=None, label=None, tag=TAG, words=None, lockup=False):
         d.text((W / 2, 400), 'ASTER', font=font(150, True), fill=INK, anchor='mm')
         d.line((W / 2 - 150, 500, W / 2 + 150, 500), fill=CYAN, width=3)
         d.text((W / 2, 560), 'Space Health Research Console', font=font(44), fill=INK, anchor='mm')
-        d.text((W / 2, 690), 'github.com/umitcancinar/NasaSpaceApps', font=font(34), fill=CYAN, anchor='mm')
+        d.text((W / 2, 690), 'github.com/emreaskinsoftware/NasaSpaceApps', font=font(34), fill=CYAN, anchor='mm')
         d.text((W / 2, 900), 'Research prototype · Simulated data · Not a medical device', font=font(28), fill=(159, 176, 190), anchor='mm')
         d.text((W / 2, 950), 'Built with Claude Fable 5.2 · Narration, music and one illustrative insert generated with Higgsfield', font=font(24), fill=(159, 176, 190), anchor='mm')
         im.save(TMP / f'{name}.png')

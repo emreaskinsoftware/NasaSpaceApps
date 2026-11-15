@@ -3,7 +3,7 @@
  "deliverables": {
   "mainFilm": {
    "file": "deliverables/video/ASTER_Product_Film_EN_1080p.mp4",
-   "sha256": "ed03a8a26b2c9e2ef163c67c31630b81ee1cb5e7b2afc317552e5f9db474dbf5",
+   "sha256": "90f182a22b4c54741d117a106b074bc9c1c16d909e598e796149a27d49f19e61",
    "seconds": 103.4,
    "video": "H.264, 1920x1080, 30 fps",
    "audio": "AAC 48 kHz mono, -16.6 LUFS integrated, true peak -1.5 dBTP (measured with ffmpeg loudnorm)",

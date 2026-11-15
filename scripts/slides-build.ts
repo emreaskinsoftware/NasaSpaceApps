@@ -23,7 +23,7 @@ const D = { bg: '0B1016', surface: '121B25', elev: '1A2633', text: 'EDF4FA', tex
 const L = { bg: 'F4F7FA', surface: 'FFFFFF', elev: 'EAF0F5', text: '142332', text2: '43576A', border: 'CBD5DF', accent: '00586A', warn: '7A4100', crit: 'A31D2E', ok: '0F5F3A' };
 type Pal = typeof D;
 const FONT = 'Segoe UI', MONO = 'Consolas', W = 13.333, H = 7.5, MX = 0.6;
-const REPO = 'github.com/umitcancinar/NasaSpaceApps';
+const REPO = 'github.com/emreaskinsoftware/NasaSpaceApps';
 const pct = (x: number | null) => (x === null || x === undefined ? '—' : `${Math.round(x * 100)} %`);
 const assets = new Set<string>();
 
